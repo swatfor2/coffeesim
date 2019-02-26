@@ -1,5 +1,6 @@
 from CoffeeMachineStatus import CoffeeMachineStatus
 from CoffeeMachineOrder import CoffeeMachineOrder
+from DataController import addEntry, getEntries
 
 import datetime
 
@@ -63,7 +64,7 @@ class CoffeeMachine(object):
 
     def _logOrder(self, newOrder):
         #Call DB module and log order
-        pass
+        addEntry(newOrder)
 
     def _logStatus(self):
         #Call DB module and log order
