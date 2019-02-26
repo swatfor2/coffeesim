@@ -11,6 +11,7 @@
 <body>
 <div class="buttonWrapper">
     <input id="simulationButton" type="button" value="Start" onclick="startSimulation()">
+    <input id="deleteButton" type="button" value="Löschen" onclick="deleteSimulation()">
 </div>
 <div class="tableWrapperOrder">
     <table>
@@ -127,9 +128,23 @@ function startSimulation() {
        url: "/startSimulation",
        success: function(data){
             alert(data)
-            jQuery('#simulationButton').val("Stop");
+
        }
     });
+}
+
+function deleteSimulation() {
+    if (confirm('Daten wirklich löschen?')) {
+        jQuery.ajax({
+           type: "GET",
+           url: "/deleteSimulation",
+           success: function(data){
+                alert(data)
+                location.reload();
+           }
+        });
+    }
+
 }
 
 var labels = [];
@@ -140,7 +155,6 @@ for(var k in ordersForGraph){
     labels.push(k);
     data.push(ordersForGraph[k]);
 }
-
 
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {

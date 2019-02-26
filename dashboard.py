@@ -3,6 +3,7 @@ from flask import render_template
 from user_interface import next
 from DataController import getOrderEntries
 from DataController import getStatusEntries
+from DataController import deleteSimulation
 from datetime import datetime
 
 import time
@@ -22,4 +23,11 @@ def renderTemplate():
 def startSimulation():
         next(datetime.now())
         return "Simulation laeuft"
+
+@app.route('/deleteSimulation')
+def deleteSimulationCall():
+        deleteSimulation()
+        return "Alle Daten geloescht"
+
+
 

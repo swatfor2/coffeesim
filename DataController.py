@@ -55,3 +55,13 @@ def addStatusEntry(status):
     conn.commit()
 
 
+def deleteSimulation():
+    print("delete")
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM STATUS")
+    c.execute("DELETE FROM ORDERS")
+    conn.commit()
+
+
+
