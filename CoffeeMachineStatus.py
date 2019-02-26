@@ -1,5 +1,6 @@
 class CoffeeMachineStatus(object):
-    def __init__(self, timestamp, powerOn, energySaver, requiredBeans, requiredMilk, requiredWater, pumpRuntime, grinderRuntime, machineRuntime):
+    def __init__(self, id, timestamp, powerOn, energySaver, requiredBeans, requiredMilk, requiredWater, pumpRuntime, grinderRuntime, machineRuntime):
+        self.id = id
         self.timestamp = timestamp #String
         self.powerOn = powerOn #bool
         self.energySaver = energySaver #bool
