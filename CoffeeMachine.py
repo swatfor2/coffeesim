@@ -1,6 +1,7 @@
 from CoffeeMachineStatus import CoffeeMachineStatus
 from CoffeeMachineOrder import CoffeeMachineOrder
-from DataController import addOrderEntry, getOrderEntries
+from DataController import addOrderEntry, getOrderEntries, getLatestStatus, addStatusEntry
+from BeverageList import BeverageList, BeverageItem
 
 import datetime
 
@@ -8,19 +9,17 @@ import datetime
 class CoffeeMachine(object):
 
     def __init__(self):
-        self._standardBeverages = []
+        self.beverageList = BeverageList()
+        self._standardBeverages = self.beverageList.getBeverageList()
         self._scoredBeverages = []
-
-        #List with required resources for products
-        #[[1, "Cafè Créme", "200", "10", "0"], [...]] e.g. [[ID, Name, Required Water, Reqired Beans, Required Milk]]
-        self._requiredResources = []
         self.coffeeMachineStatus = self._startUp()
 
     def _startUp(self):
         #check and get the States of the Machine
         #Request from DB
         #Filled with dummy data
-        tempCoffeeMachineStatus = CoffeeMachineStatus("", "", 1, 1, 10, 20, 150, 20, 3, 30)
+        tempCoffeeMachineStatus = getLatestStatus()
+
         return tempCoffeeMachineStatus
 
     def getBeverageList(self):
@@ -37,6 +36,15 @@ class CoffeeMachine(object):
             newOrder = CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             #recalculate status
+            self.coffeeMachineStatus.powerOn = 1
+            self.coffeeMachineStatus.energySaver = 0
+            self.coffeeMachineStatus.timestamp = timestamp
+            self.coffeeMachineStatus.grinderRuntime += self._standardBeverages[beverageID + 1].grinderRuntime
+            self.coffeeMachineStatus.id = ""
+            self.coffeeMachineStatus.pumpRuntime += self._standardBeverages[beverageID + 1].pumpRuntime
+            self.coffeeMachineStatus.requiredBeans -= self._standardBeverages[beverageID + 1].requiredBeans
+            self.coffeeMachineStatus.requiredMilk -= self._standardBeverages[beverageID + 1].requiredMilk
+            self.coffeeMachineStatus.requiredWater -= self._standardBeverages[beverageID + 1].requiredWater
             self._logStatus()
             self._callDashboard(True)
             return True
@@ -68,7 +76,7 @@ class CoffeeMachine(object):
 
     def _logStatus(self):
         #Call DB module and log order
-        pass
+        addStatusEntry(self.coffeeMachineStatus)
 
     def _callDashboard(self, approved):
         pass
