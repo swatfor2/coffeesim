@@ -6,6 +6,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.bundle.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
 </head>
 <body>
 <div class="buttonWrapper">
@@ -50,7 +51,7 @@
 
 
 for (i = 0; i < orders.length; i++) {
-  orders[i]["timestampOrder"] = Date.parse(orders[i]["timestampOrder"] * 1000);
+  orders[i]["timestampOrder"] = moment(orders[i]["timestampOrder"],"YYYY-MM-DD").toDate();
 }
 
 
