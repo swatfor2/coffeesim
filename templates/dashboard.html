@@ -37,7 +37,9 @@
 
     </table>
 </div>
-<canvas id="myChart" width="400" height="400"></canvas>
+<div style="height:400px;width:400px;" >
+    <canvas id="myChart" width="400" height="400" ></canvas>
+</div>
 
 
 </body>
@@ -92,7 +94,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: labels,
         datasets: [{
-            label: '# of Votes',
+            label: 'Vebrauchte Kaffee',
             data: data,
             borderWidth: 1
         }]
