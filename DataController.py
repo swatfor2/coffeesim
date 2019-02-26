@@ -1,5 +1,5 @@
 import sqlite3
-from CoffeeMachineOrder import CoffeMachineOrder
+from CoffeeMachineOrder import CoffeeMachineOrder
 
 
 
@@ -10,7 +10,7 @@ def getEntries():
     rows = c.fetchall()
     orders = []
     for row in rows:
-        orders.append(CoffeMachineOrder(row[0],row[1],row[2]))
+        orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
     return orders
 
 

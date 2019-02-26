@@ -1,5 +1,5 @@
 from CoffeeMachineStatus import CoffeeMachineStatus
-from CoffeeMachineOrder import CoffeMachineOrder
+from CoffeeMachineOrder import CoffeeMachineOrder
 
 import datetime
 
@@ -30,10 +30,10 @@ class CoffeeMachine(object):
         else:
             return self._standardBeverages
 
-    def orderBeverage(self, id, timestamp):
-        if self._checkResources(id):
-            self._recalculateResources(id)
-            newOrder = CoffeMachineOrder(id, timestamp)
+    def orderBeverage(self, beverageID, timestamp):
+        if self._checkResources(beverageID):
+            self._recalculateResources(beverageID)
+            newOrder = CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             #recalculate status
             self._logStatus()
