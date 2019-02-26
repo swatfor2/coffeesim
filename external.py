@@ -3,7 +3,7 @@ from random import randint
 
 def wasgibts(timestamp):
     random_wert = randint(0, 100)
-    if random_wert < 80:
+    if random_wert < 100:
         status = True
         # kaffee = ["espresso", "cafe crema", "latte macchiato", "milch"]
         kaffeelist = [{

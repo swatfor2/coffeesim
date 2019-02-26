@@ -1,6 +1,6 @@
 from CoffeeMachineStatus import CoffeeMachineStatus
 from CoffeeMachineOrder import CoffeeMachineOrder
-from DataController import addEntry, getEntries
+from DataController import addOrderEntry, getOrderEntries
 
 import datetime
 
@@ -20,7 +20,7 @@ class CoffeeMachine(object):
         #check and get the States of the Machine
         #Request from DB
         #Filled with dummy data
-        tempCoffeeMachineStatus = CoffeeMachineStatus(datetime.datetime.utcnow(), True, True, 10, 20, 150, 20, 3, 30)
+        tempCoffeeMachineStatus = CoffeeMachineStatus("", "", 1, 1, 10, 20, 150, 20, 3, 30)
         return tempCoffeeMachineStatus
 
     def getBeverageList(self):
@@ -56,7 +56,7 @@ class CoffeeMachine(object):
     def _checkResources(self, id):
         #if required resources > current resources --> True else False
         #get Statusobject from DB
-        return False
+        return True
 
     def _recalculateResources(self, id):
         #Subtract required resources from current resources
@@ -64,7 +64,7 @@ class CoffeeMachine(object):
 
     def _logOrder(self, newOrder):
         #Call DB module and log order
-        addEntry(newOrder)
+        addOrderEntry(newOrder)
 
     def _logStatus(self):
         #Call DB module and log order

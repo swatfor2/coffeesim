@@ -20,7 +20,8 @@ def getOrderEntries():
 def addOrderEntry(order):
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
-    c.execute('insert into ORDERS (beverageUUID,timestampOrder) values ({0},{1})'.format(order.beverageUUID,order.timestampOrder))
+    print('insert into ORDERS (beverageUUID,timestampOrder) values ({0},"{1}")'.format(order.beverageID,order.timestampOrder))
+    c.execute('insert into ORDERS (beverageUUID,timestampOrder) values ({0},"{1}")'.format(order.beverageID,order.timestampOrder))
     conn.commit()
 
 

@@ -21,5 +21,5 @@ def renderTemplate():
 @app.route('/startSimulation')
 def startSimulation():
         next(datetime.now())
-        return "Erfolgreich"
+        return "Simulation laeuft"
 

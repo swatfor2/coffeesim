@@ -29,7 +29,7 @@
             {% for order in orders %}
                 <tr>
                     <td>{{order.id}}</td>
-                    <td>{{order.beverageUUID}}</td>
+                    <td>{{order.beverageID}}</td>
                     <td>{{order.timestampOrder}}</td>
                 </tr>
             {% endfor %}
@@ -122,14 +122,14 @@ for (i = 0; i < orders.length; i++) {
 
 
 function startSimulation() {
-jQuery.ajax({
-   type: "GET",
-   url: "/startSimulation",
-   success: function(data){
-        alert(data)
-        jQuery('#simulationButton').val("Stop");
-   }
-});
+    jQuery.ajax({
+       type: "GET",
+       url: "/startSimulation",
+       success: function(data){
+            alert(data)
+            jQuery('#simulationButton').val("Stop");
+       }
+    });
 }
 
 var labels = [];
