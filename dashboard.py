@@ -5,6 +5,8 @@ from DataController import getOrderEntries
 from DataController import getStatusEntries
 from DataController import deleteSimulation
 from datetime import datetime
+from flask import request
+from datetime import timedelta
 
 import time
 import json
@@ -21,8 +23,17 @@ def renderTemplate():
 
 @app.route('/startSimulation')
 def startSimulation():
-        next(datetime.now())
-        return "Simulation laeuft"
+        args = request.args
+        wochen = args['wochen']
+        #10080 Minuten pro woche
+
+        minuten = 10080 * int(wochen)
+        date = datetime.now();
+        for x in range(minuten):
+            date = date + timedelta(minutes = 1)
+            next(date)
+
+        return "Simulation abgeschlossen"
 
 @app.route('/deleteSimulation')
 def deleteSimulationCall():
