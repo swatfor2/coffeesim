@@ -22,5 +22,3 @@ def addEntry(order):
     conn.commit()
 
 
-order = CoffeMachineOrder("", 2, "25")
-addEntry(order)

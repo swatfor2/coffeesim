@@ -7,7 +7,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<input type="button" value="Start" onclick="startSimulation()">
+<div class="buttonWrapper">
+    <input id="simulationButton" type="button" value="Start" onclick="startSimulation()">
+</div>
+<div class="tableWrapper">
+    <table>
+        <thead>
+            <th>
+                ID
+            </th>
+            <th>
+                Coffee
+            </th>
+            <th>
+                Timestamp
+            </th>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.beverageUUID}}</td>
+                    <td>{{order.timestampOrder}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+
 
 </body>
 
@@ -19,6 +48,7 @@ jQuery.ajax({
    url: "/startSimulation",
    success: function(data){
         alert(data)
+        jQuery('#simulationButton').val("Stop");
    }
 });
 }
