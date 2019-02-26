@@ -1,9 +1,8 @@
 from flask import Flask
 from flask import render_template
 from user_interface import next
-from DataController import getEntries
-from DataController import addEntry
-from CoffeeMachineOrder import CoffeMachineOrder
+from DataController import getOrderEntries
+from DataController import getStatusEntries
 from datetime import datetime
 
 import time
@@ -13,11 +12,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def renderTemplate():
-        orders = getEntries();
+        orders = getOrderEntries();
         orderStr = json.dumps([e.toJSON() for e in orders])
-        print(datetime.now());
-
-        return render_template('dashboard.html',orders=getEntries(),orderStr=orderStr).encode("utf-8")
+        statusList = getStatusEntries();
+        return render_template('dashboard.html',orders=orders,orderStr=orderStr,statusList=statusList).encode("utf-8")
 
 
 @app.route('/startSimulation')
