@@ -16,13 +16,13 @@ class BeverageList(object):
 
 class BeverageItem(object):
 
-    def __init__(self, beverageID, name, requiredBeans, requiredMilk, requiredWater, pumpRuntime, grinderRuntime):
+    def __init__(self, beverageID, name, remainingBeans, remainingMilk, remainingWater, pumpRuntime, grinderRuntime):
         self.beverageID = beverageID
         self.name = name
         self.score = 0
-        self.requiredBeans = requiredBeans
-        self.requiredMilk = requiredMilk
-        self.requiredWater = requiredWater
+        self.remainingBeans = remainingBeans
+        self.remainingMilk = remainingMilk
+        self.remainingWater = remainingWater
         self.pumpRuntime = pumpRuntime
         self.grinderRuntime = grinderRuntime
 

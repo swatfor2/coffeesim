@@ -42,9 +42,9 @@ class CoffeeMachine(object):
             self.coffeeMachineStatus.grinderRuntime += self._standardBeverages[beverageID + 1].grinderRuntime
             self.coffeeMachineStatus.id = ""
             self.coffeeMachineStatus.pumpRuntime += self._standardBeverages[beverageID + 1].pumpRuntime
-            self.coffeeMachineStatus.requiredBeans -= self._standardBeverages[beverageID + 1].requiredBeans
-            self.coffeeMachineStatus.requiredMilk -= self._standardBeverages[beverageID + 1].requiredMilk
-            self.coffeeMachineStatus.requiredWater -= self._standardBeverages[beverageID + 1].requiredWater
+            self.coffeeMachineStatus.remainingBeans -= self._standardBeverages[beverageID + 1].remainingBeans
+            self.coffeeMachineStatus.remainingMilk -= self._standardBeverages[beverageID + 1].remainingMilk
+            self.coffeeMachineStatus.remainingWater -= self._standardBeverages[beverageID + 1].remainingWater
             self._logStatus()
             self._callDashboard(True)
             return True
