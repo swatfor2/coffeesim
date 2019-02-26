@@ -12,7 +12,7 @@
 <div class="buttonWrapper">
     <input id="simulationButton" type="button" value="Start" onclick="startSimulation()">
 </div>
-<div class="tableWrapper">
+<div class="tableWrapperOrder">
     <table>
         <thead>
             <th>
@@ -37,6 +37,60 @@
 
     </table>
 </div>
+<div class="tableWrapperStatus" style=" margin-top:40px">
+    <table>
+        <thead>
+            <th>
+                ID
+            </th>
+            <th>
+                Zeit
+            </th>
+            <th>
+                PowerOn
+            </th>
+            <th>
+                energySaver
+            </th>
+            <th>
+                requiredBeans
+            </th>
+            <th>
+                requiredMilk
+            </th>
+            <th>
+                requiredWater
+            </th>
+            <th>
+                pumpRuntime
+            </th>
+            <th>
+                grinderRuntime
+            </th>
+            <th>
+                machineRuntime
+            </th>
+        </thead>
+        <tbody>
+            {% for status in statusList %}
+                <tr>
+                    <td>{{status.id}}</td>
+                    <td>{{status.timestamp}}</td>
+                    <td>{{status.powerOn}}</td>
+                    <td>{{status.energySaver}}</td>
+                    <td>{{status.requiredBeans}}</td>
+                    <td>{{status.requiredMilk}}</td>
+                    <td>{{status.requiredWater}}</td>
+                    <td>{{status.pumpRuntime}}</td>
+                    <td>{{status.grinderRuntime}}</td>
+                    <td>{{status.machineRuntime}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 <div style="height:400px;width:400px;" >
     <canvas id="myChart" width="400" height="400" ></canvas>
 </div>
