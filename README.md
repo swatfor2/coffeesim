@@ -10,5 +10,4 @@ heroku create {{optional appname}}
 git push heroku master
 ```
 
-oder so
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
