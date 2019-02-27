@@ -1,6 +1,7 @@
 import sqlite3
 from CoffeeMachineOrder import CoffeeMachineOrder
 from CoffeeMachineStatus import CoffeeMachineStatus
+import CoffeeMachine
 
 
 
@@ -45,7 +46,10 @@ def getLatestStatus():
     statusList = []
     for row in rows:
         statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
-    return statusList[0]
+    if len(statusList) == 0:
+        return CoffeeMachineStatus("", "", 1, 0, CoffeeMachine.MAXBEANS, CoffeeMachine.MAXMILK, CoffeeMachine.MAXWATER, 0, 0, 0)
+    else:
+        return statusList[0]
 
 
 def addStatusEntry(status):
