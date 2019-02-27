@@ -22,6 +22,13 @@
     <input id="simulationButton" type="button" value="Start" onclick="startSimulation()">
     <input id="deleteButton" type="button" value="Löschen" onclick="deleteSimulation()">
 </div>
+
+<div class="tabsWrapper">
+    <span onclick="changeTab('1')">Bestellungen</span>
+    <span onclick="changeTab('2')">Status</span>
+    <span onclick="changeTab('3')">Grafik</span>
+</div>
+
 <div class="tableWrapperOrder" style="width:50%;">
     <table id="orderId">
         <thead>
@@ -136,15 +143,55 @@ for (i = 0; i < orders.length; i++) {
 
 $(document).ready(function() {
     $('#orderId').DataTable( {
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
+        }
     } );
-    $('#statusTable').DataTable( {
-        "pagingType": "full_numbers"
-    } );
+
+
 
 } );
 
+function changeTab(tab){
+    if(tab == 2){
 
+        $('#statusTable').DataTable( {
+            "pagingType": "full_numbers",
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
+            }
+        } );
+        jQuery('#orderId').hide();
+
+    }
+    if(tab == 3){
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vebrauchte Kaffee',
+                    data: data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        jQuery('#orderId').hide();
+
+    }
+}
 
 function startSimulation() {
     console.log("Start ausgeführt");
@@ -184,27 +231,7 @@ for(var k in ordersForGraph){
     data.push(ordersForGraph[k]);
 }
 
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Vebrauchte Kaffee',
-            data: data,
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+
 </script>
 
 
