@@ -108,3 +108,6 @@ venv.bak/
 
 #DB
 CoffeeMachineDB.db
+
+coffeesim
+.vscode
