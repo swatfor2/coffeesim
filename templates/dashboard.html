@@ -7,9 +7,9 @@
     <script src="{{ url_for('static', filename='jquery-3.3.1.js') }}"></script>
     <script src="{{ url_for('static', filename='Chart.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}" media="screen" />
-
-    <style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dataTable.css') }}" media="screen" />
 </head>
 <body>
 <div class="buttonWrapper">
@@ -22,8 +22,8 @@
     <input id="simulationButton" type="button" value="Start" onclick="startSimulation()">
     <input id="deleteButton" type="button" value="Löschen" onclick="deleteSimulation()">
 </div>
-<div class="tableWrapperOrder">
-    <table>
+<div class="tableWrapperOrder" style="width:50%;">
+    <table id="orderId">
         <thead>
             <th>
                 ID
@@ -47,8 +47,8 @@
 
     </table>
 </div>
-<div class="tableWrapperStatus" style=" margin-top:40px">
-    <table>
+<div class="tableWrapperStatus" style=" margin-top:40px; width: 85%;">
+    <table id="statusTable">
         <thead>
             <th>
                 ID
@@ -119,6 +119,9 @@
 {% endautoescape %}
 
 
+
+
+
 var ordersForGraph = {};
 for (i = 0; i < orders.length; i++) {
   orders[i]["timestampOrder"] = moment(orders[i]["timestampOrder"],"YYYY-MM-DD").toDate();
@@ -131,11 +134,20 @@ for (i = 0; i < orders.length; i++) {
   }
 }
 
+$(document).ready(function() {
+    $('#orderId').DataTable( {
+        "pagingType": "full_numbers"
+    } );
+    $('#statusTable').DataTable( {
+        "pagingType": "full_numbers"
+    } );
 
+} );
 
 
 
 function startSimulation() {
+    console.log("Start ausgeführt");
     jQuery('#loader-wrapper').show();
     jQuery.ajax({
        type: "GET",
@@ -148,6 +160,7 @@ function startSimulation() {
 }
 
 function deleteSimulation() {
+    console.log("delelte ausgeführt");
     jQuery('#loader-wrapper').show();
     if (confirm('Daten wirklich löschen?')) {
         jQuery.ajax({

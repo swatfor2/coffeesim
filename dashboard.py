@@ -26,7 +26,6 @@ def startSimulation():
         args = request.args
         wochen = args['wochen']
         #10080 Minuten pro woche
-
         minuten = 10080 * int(wochen)
         date = datetime.now();
         for x in range(minuten):
