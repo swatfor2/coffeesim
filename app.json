@@ -1,0 +1,12 @@
+{
+  "name": "coffeesim",
+  "description": "simuzeugsen",
+  "image": "heroku/python",
+  "repository": "https://github.com/florianstoeber/coffeesim",
+  "keywords": ["python", "flask"],
+  "env": {
+    "SECRET_KEY": {
+      "FLASK_APP": "dashboard.py"
+    }
+  }
+}
