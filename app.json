@@ -1,6 +1,5 @@
 {
-  "name": "coffeesim",
-  "description": "simuzeugsen",
-  "repository": "https://github.com/florianstoeber/coffeesim",
-  "keywords": ["python", "flask"]
+  "name": "Small Sharp Tool",
+  "description": "This app does one little thing, and does it well.",
+  "image": "heroku/python"
 }
