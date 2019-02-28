@@ -1,7 +1,7 @@
 from CoffeeMachineStatus import CoffeeMachineStatus
 from CoffeeMachineOrder import CoffeeMachineOrder
 from DataController import addOrderEntry, getOrderEntries, getLatestStatus, addStatusEntry
-from BeverageList import BeverageList, BeverageItem
+from Beverage import BeverageList, BeverageItem
 
 import datetime
 
