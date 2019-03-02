@@ -3,9 +3,7 @@ import os
 from flask import Flask
 from flask import render_template
 from user_interface import next
-from DataController import getOrderEntries
-from DataController import getStatusEntries
-from DataController import deleteSimulation
+from DataController import *
 from datetime import datetime
 from flask import request
 from datetime import timedelta
@@ -17,9 +15,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def renderTemplate():
-        orders = getOrderEntries();
+        orders = getLastHundredOrderEntries();
         orderStr = json.dumps([e.toJSON() for e in orders])
-        statusList = getStatusEntries();
+        statusList = getLastHundredStatusEntries();
         return render_template('dashboard.html',orders=orders,orderStr=orderStr,statusList=statusList).encode("utf-8")
 
 

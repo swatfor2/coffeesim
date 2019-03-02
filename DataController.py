@@ -16,6 +16,17 @@ def getOrderEntries():
         orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
     return orders
 
+def getLastHundredOrderEntries():
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM ORDERS ORDER BY ID DESC LIMIT 100")
+    rows = c.fetchall()
+    orders = []
+    for row in rows:
+        orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
+    return orders
+
+
 
 
 def addOrderEntry(order):
@@ -31,6 +42,16 @@ def getStatusEntries():
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
     c.execute("SELECT * FROM STATUS")
+    rows = c.fetchall()
+    statusList = []
+    for row in rows:
+        statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+    return statusList
+
+def getLastHundredStatusEntries():
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM STATUS ORDER BY ID DESC LIMIT 100")
     rows = c.fetchall()
     statusList = []
     for row in rows:
