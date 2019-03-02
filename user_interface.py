@@ -3,36 +3,18 @@ from external import wasgibts
 from random import randint
 from CoffeeMachine import CoffeeMachine
 from collections import OrderedDict
-from operator import itemgetter   
-
-#def next(timestamp):
-#    status, kaffeelist = wasgibts(timestamp)
-#    #print("Status -",status, "- Kaffeeliste - ",kaffeelist)
-#    coffeeMachine = CoffeeMachine();
-#    if status is True:
-#        random_wert_recommendation = randint(0, 100)
-#        if random_wert_recommendation > randint(0, 50):
-#            print("recommendation benutzt")
-#            sorted_kaffeelist = sorted(
-#                kaffeelist, key=lambda k: k['score'], reverse=True)
-#
-#            coffeeMachine.orderBeverage(1,timestamp) #TODO 1 ersetzen
-#
-#        else:
-#            print("recommendation nicht benutzt")
-#            coffeeMachine.orderBeverage(1,timestamp) #TODO 1 ersetzen
-#    elif status is False:
-#        print("Kaffemaschine nicht erreichbar")
-#        pass
-#    else:
-#        pass
+from operator import itemgetter  
+from datetime import time
 
 def next(timestamp):
     coffeeMachine = CoffeeMachine();
-    orderlist = coffeeMachine.getBeverageList()
-    coffeeMachine.orderBeverage(choose(orderlist), timestamp)
-    
-    
+    if(timecheck(timestamp)):
+        for i in range(randint(1,5)):
+            #orderlist = coffeeMachine.getBeverageList()
+            orderlist = {'1': 1 , '2': 1, '3': 1, '4': 1, '5': 1, '6': 1}  #muss später durch die vorherige Zeile ersetzt werden, wir bekommen von der Maschine noch nichts
+            #coffeeMachine.orderBeverage(choose(orderlist), timestamp) aktuell defekt      
+    else:
+        pass    
 
 def choose(orderlist):
     
@@ -52,7 +34,7 @@ def choose(orderlist):
            ]
 
     random.seed()
-    random_value = randint(0,1000) % modellist.Length()
+    random_value = randint(0,1000) % len(modellist)
     
     returnlist = {}
     returnlist["1"] = modellist[random_value]["1"] * orderlist["1"]
@@ -62,9 +44,11 @@ def choose(orderlist):
     returnlist["5"] = modellist[random_value]["5"] * orderlist["5"]
     returnlist["6"] = modellist[random_value]["6"] * orderlist["6"]
     sortedList = OrderedDict(sorted(returnlist.items(), key = itemgetter(1), reverse = True))
-    return(sortedList.popitem(last=False)[0])
-        
-    
-
+    return(sortedList.popitem(last=False)[0])    
     
     
+def timecheck(timestamp): 
+    if(timestamp.hour < 18 and timestamp.hour > 7 and timestamp.isoweekday() < 6):
+        return True
+    else:
+        return False
