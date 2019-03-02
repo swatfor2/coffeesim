@@ -64,9 +64,12 @@ def getLatestStatus():
     c = conn.cursor()
     c.execute("SELECT * FROM STATUS WHERE id = (SELECT MAX(id) FROM STATUS)")
     row = c.fetchone()
-    print(row)
-    return CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9])
-    #return CoffeeMachineStatus("", "", 1, 0, CoffeeMachine.MAXBEANS, CoffeeMachine.MAXMILK, CoffeeMachine.MAXWATER, 0, 0, 0)
+    if row is None:
+        #Check if DB is Empty
+        return CoffeeMachineStatus("", "", 1, 0, CoffeeMachine.MAXBEANS, CoffeeMachine.MAXMILK, CoffeeMachine.MAXWATER, 0, 0, 0)
+    else:
+        return CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9])
+
 
 
 
@@ -84,6 +87,3 @@ def deleteSimulation():
     c.execute("DELETE FROM STATUS")
     c.execute("DELETE FROM ORDERS")
     conn.commit()
-
-
-getLatestStatus();
