@@ -29,7 +29,7 @@
     <span onclick="changeTab('3')">Grafik</span>
 </div>
 
-<div class="tableWrapperOrder" style="width:50%;">
+<div id="tableWrapperOrder" style="width:50%;">
     <table id="orderId">
         <thead>
             <th>
@@ -54,7 +54,7 @@
 
     </table>
 </div>
-<div class="tableWrapperStatus" style=" margin-top:40px; width: 85%;">
+<div id="tableWrapperStatus" style=" margin-top:40px; width: 85%; display:none;">
     <table id="statusTable">
         <thead>
             <th>
@@ -108,7 +108,7 @@
 </div>
 
 
-<div style="height:400px;width:400px;" >
+<div id="chartWrapper" style="height:400px;width:400px;display:none;" >
     <canvas id="myChart" width="400" height="400" ></canvas>
 </div>
 
@@ -148,47 +148,55 @@ $(document).ready(function() {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
         }
     } );
+    $('#statusTable').DataTable( {
+        "pagingType": "full_numbers",
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
+        }
+    } );
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Vebrauchte Kaffee',
+                data: data,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
 
 
 
 } );
 
 function changeTab(tab){
-    if(tab == 2){
+    if(tab == 1) {
+        jQuery('#tableWrapperStatus').hide();
+        jQuery('#chartWrapper').hide()
+        jQuery('#tableWrapperOrder').fadeIn();
 
-        $('#statusTable').DataTable( {
-            "pagingType": "full_numbers",
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
-            }
-        } );
-        jQuery('#orderId').hide();
 
-    }
-    if(tab == 3){
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Vebrauchte Kaffee',
-                    data: data,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
+    }else if(tab == 2){
+        jQuery('#tableWrapperStatus').fadeIn();
+        jQuery('#chartWrapper').hide()
+        jQuery('#tableWrapperOrder').hide();
 
-        jQuery('#orderId').hide();
+    }else if(tab == 3){
+        jQuery('#tableWrapperStatus').hide();
+        jQuery('#chartWrapper').fadeIn()
+        jQuery('#tableWrapperOrder').hide();
 
     }
 }

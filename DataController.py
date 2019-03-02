@@ -16,6 +16,17 @@ def getOrderEntries():
         orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
     return orders
 
+def getLastHundredOrderEntries():
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM ORDERS ORDER BY ID DESC LIMIT 100")
+    rows = c.fetchall()
+    orders = []
+    for row in rows:
+        orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
+    return orders
+
+
 
 
 def addOrderEntry(order):
@@ -37,19 +48,29 @@ def getStatusEntries():
         statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
     return statusList
 
+def getLastHundredStatusEntries():
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM STATUS ORDER BY ID DESC LIMIT 100")
+    rows = c.fetchall()
+    statusList = []
+    for row in rows:
+        statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+    return statusList
+
 
 def getLatestStatus():
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
     c.execute("SELECT * FROM STATUS WHERE id = (SELECT MAX(id) FROM STATUS)")
-    rows = c.fetchall()
-    statusList = []
-    for row in rows:
-        statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
-    if len(statusList) == 0:
+    row = c.fetchone()
+    if row is None:
+        #Check if DB is Empty
         return CoffeeMachineStatus("", "", 1, 0, CoffeeMachine.MAXBEANS, CoffeeMachine.MAXMILK, CoffeeMachine.MAXWATER, 0, 0, 0)
     else:
-        return statusList[0]
+        return CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9])
+
+
 
 
 def addStatusEntry(status):
@@ -66,6 +87,3 @@ def deleteSimulation():
     c.execute("DELETE FROM STATUS")
     c.execute("DELETE FROM ORDERS")
     conn.commit()
-
-
-

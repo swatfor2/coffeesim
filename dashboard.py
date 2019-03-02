@@ -3,9 +3,7 @@ import os
 from flask import Flask
 from flask import render_template
 from user_interface import next
-from DataController import getOrderEntries
-from DataController import getStatusEntries
-from DataController import deleteSimulation
+from DataController import *
 from datetime import datetime
 from flask import request
 from datetime import timedelta
@@ -17,9 +15,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def renderTemplate():
-        orders = getOrderEntries();
-        orderStr = json.dumps([e.toJSON() for e in orders])
-        statusList = getStatusEntries();
+        orders = getLastHundredOrderEntries();
+        orderStr = json.dumps([e.toJSON() for e in getOrderEntries()])
+        statusList = getLastHundredStatusEntries();
         return render_template('dashboard.html',orders=orders,orderStr=orderStr,statusList=statusList).encode("utf-8")
 
 
@@ -33,7 +31,6 @@ def startSimulation():
         for x in range(minuten):
             date = date + timedelta(minutes = 1)
             next(date)
-
         return "Simulation abgeschlossen"
 
 @app.route('/deleteSimulation')
@@ -41,6 +38,16 @@ def deleteSimulationCall():
         deleteSimulation()
         return "Alle Daten geloescht"
 
+
+@app.route('/test')
+def test():
+    for x in range(10):
+        next(datetime.now())
+    return "Überprüf das Log"
+
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))
   app.run(host='0.0.0.0', port=port, debug=True)
+
+
+

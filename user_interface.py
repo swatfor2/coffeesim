@@ -1,4 +1,3 @@
-import random
 from external import wasgibts
 from random import randint
 from CoffeeMachine import CoffeeMachine
@@ -7,6 +6,8 @@ from operator import itemgetter
 from datetime import time
 
 def next(timestamp):
+    status, kaffeelist = wasgibts(timestamp)
+    # print("Status -",status, "- Kaffeeliste - ",kaffeelist)
     coffeeMachine = CoffeeMachine();
     if(timecheck(timestamp)):
         for i in range(randint(1,5)):
@@ -16,22 +17,7 @@ def next(timestamp):
     else:
         pass    
 
-def choose(orderlist):
-    
-#orderlist --> 1 Cafe Creme; 2 Latte Machiatto; 3 Espresso; 4 Hot Water; 5 Milchkaffe; 6 Doppelter Espresso;
-     
-    modellist = [
-           {'1': 0 , '2': 0, '3': 0, '4': 100, '5': 0, '6': 0},            #nur Tee
-           {'1': 100 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 25},         #nur Schwarz
-           {'1': 0 , '2': 100, '3': 0, '4': 25, '5': 60, '6': 0},          #nur Weiß aber eher Latte Machiatto
-           {'1': 25 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 100},         #Esspressobevorzugende
-           {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 100, '6': 0},          #nur Weiß aber eher Milchkaffee
-           {'1': 80 , '2': 30, '3': 0, '4': 70, '5': 70, '6': 0},          #Der Allrounder
-           {'1': 70 , '2': 70, '3': 0, '4': 80, '5': 30, '6': 0},          #Der Allrounder II
-           {'1': 100 , '2': 100, '3': 100, '4': 100, '5': 100, '6': 100},  #Reccommendation
-           {'1': 100 , '2': 0, '3': 100, '4': 0, '5': 0, '6': 100},        #Reccommendation ohne Milch
-           {'1': 0 , '2': 100, '3': 0, '4': 100, '5': 100, '6': 0}         #Reccommendation nur Milch und Tee
-           ]
+            coffeeMachine.orderBeverage(1,timestamp) #TODO 1 ersetzen
 
     random.seed()
     random_value = randint(0,1000) % len(modellist)
