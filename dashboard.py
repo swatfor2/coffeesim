@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route('/')
 def renderTemplate():
         orders = getLastHundredOrderEntries();
-        orderStr = json.dumps([e.toJSON() for e in orders])
+        orderStr = json.dumps([e.toJSON() for e in getOrderEntries()])
         statusList = getLastHundredStatusEntries();
         return render_template('dashboard.html',orders=orders,orderStr=orderStr,statusList=statusList).encode("utf-8")
 
