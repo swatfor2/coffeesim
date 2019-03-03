@@ -59,7 +59,7 @@ class Usermodel(object):
             for i in range(randint(0,3)):
                 #orderlist = coffeeMachine.getBeverageList()
                 orderlist = {'1': 1 , '2': 1, '3': 1, '4': 1, '5': 1, '6': 1}  #muss später durch die vorherige Zeile ersetzt werden, wir bekommen von der Maschine noch nichts
-                #coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp) aktuell defekt      
+                coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp)  
                 print(self.chooseCoffee(orderlist))
         else:
             pass   
