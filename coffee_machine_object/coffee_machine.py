@@ -1,14 +1,10 @@
-from CoffeeMachineStatus import CoffeeMachineStatus
-from CoffeeMachineOrder import CoffeeMachineOrder
+from coffee_machine_object import order
+from coffee_machine_object import BeverageList, BeverageItem
+from coffee_machine_object import constants
 from DataController import addOrderEntry, getOrderEntries, getLatestStatus, addStatusEntry
-from Beverage import BeverageList, BeverageItem
-
 import datetime
 
-# Globals
-MAXMILK = 1000  # ml
-MAXWATER = 2000  # ml
-MAXBEANS = 1000  # gramm
+
 
 
 class CoffeeMachine(object):
@@ -34,12 +30,12 @@ class CoffeeMachine(object):
             self._scoredBeverages = self._getScoredBeverageList()
             return self._scoredBeverages
         else:
-            return self._standardBeverages
+            return self._beverageDict
 
     def orderBeverage(self, beverageID, timestamp):
         if self._checkResources(beverageID):
             #self._recalculateResources(beverageID, timestamp) TODO Marek bitte überprüfen.. funktioniert nicht
-            newOrder = CoffeeMachineOrder("", beverageID, timestamp)
+            newOrder = order.CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             self._logStatus()
             return True
@@ -47,23 +43,23 @@ class CoffeeMachine(object):
             return False
 
     def fillUpMilk(self):
-        self.coffeeMachineStatus.remainingMilk = MAXMILK
+        self.coffeeMachineStatus.remainingMilk = constants.MAXMILK
         self._logStatus()
         return True
 
     def fillUpBeans(self):
-        self.coffeeMachineStatus.remainingBeans = MAXBEANS
+        self.coffeeMachineStatus.remainingBeans = constants.MAXBEANS
         self._logStatus()
         return True
 
     def fillUpWater(self):
-        self.coffeeMachineStatus.remainingBeans = MAXWATER
+        self.coffeeMachineStatus.remainingBeans = constants.MAXWATER
         self._logStatus()
         return True
 
     def _checkRecommendationModule(self):
         #Is Recommendation Moduloe is active
-        return True
+        return False
     
     def _getScoredBeverageList(self):
         #Request an Recommendation Module
@@ -87,17 +83,17 @@ class CoffeeMachine(object):
             enoughResourcesAvailable = False
 
         #Check available Resources and inform recommendation module if necessary
-        if self.coffeeMachineStatus.remainingBeans < MAXBEANS * 0.1:
+        if self.coffeeMachineStatus.remainingBeans < constants.MAXBEANS * 0.1:
             #Call recommendation module
             #TODO
             pass
 
-        if self.coffeeMachineStatus.remainingMilk < MAXMILK * 0.1:
+        if self.coffeeMachineStatus.remainingMilk < constants.MAXMILK * 0.1:
             # Call recommendation module
             # TODO#
             pass
 
-        if self.coffeeMachineStatus.remainingWater < MAXWATER * 0.1:
+        if self.coffeeMachineStatus.remainingWater < constants.MAXWATER * 0.1:
             # Call recommendation module
             # TODO#
             pass

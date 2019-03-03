@@ -10,7 +10,7 @@
 
 import random
 from random import randint
-from CoffeeMachine import CoffeeMachine
+from coffee_machine_object import CoffeeMachine
 from collections import OrderedDict
 from operator import itemgetter  
 
@@ -57,8 +57,7 @@ class Usermodel(object):
         coffeeMachine = CoffeeMachine()
         if(self.timecheck(timestamp)):
             for i in range(randint(0,3)):
-                #orderlist = coffeeMachine.getBeverageList()
-                orderlist = {'1': 1 , '2': 1, '3': 1, '4': 1, '5': 1, '6': 1}  #muss später durch die vorherige Zeile ersetzt werden, wir bekommen von der Maschine noch nichts
+                orderlist = coffeeMachine.getBeverageList()
                 coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp)  
                 print(self.chooseCoffee(orderlist))
         else:
@@ -80,11 +79,11 @@ class Usermodel(object):
         # =============================================================================
         random_value = randint(0,1000) % len(self.modellist)
         returnlist = {}
-        returnlist["1"] = self.modellist[random_value]["1"] * orderlist["1"]
-        returnlist["2"] = self.modellist[random_value]["2"] * orderlist["2"]
-        returnlist["3"] = self.modellist[random_value]["3"] * orderlist["3"]
-        returnlist["4"] = self.modellist[random_value]["4"] * orderlist["4"]
-        returnlist["5"] = self.modellist[random_value]["5"] * orderlist["5"]
-        returnlist["6"] = self.modellist[random_value]["6"] * orderlist["6"]
+        returnlist["1"] = self.modellist[random_value]["1"] * orderlist["1"]["score"]
+        returnlist["2"] = self.modellist[random_value]["2"] * orderlist["2"]["score"]
+        returnlist["3"] = self.modellist[random_value]["3"] * orderlist["3"]["score"]
+        returnlist["4"] = self.modellist[random_value]["4"] * orderlist["4"]["score"]
+        returnlist["5"] = self.modellist[random_value]["5"] * orderlist["5"]["score"]
+        returnlist["6"] = self.modellist[random_value]["6"] * orderlist["6"]["score"]
         sortedList = OrderedDict(sorted(returnlist.items(), key = itemgetter(1), reverse = True))
         return(sortedList.popitem(last=False)[0])

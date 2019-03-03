@@ -1,6 +1,5 @@
 from math import *
-from BeverageList import BeverageList
-from BeverageList import BeverageItem
+from coffee_machine_object import BeverageList, BeverageItem
 from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
 

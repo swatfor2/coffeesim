@@ -1,9 +1,8 @@
 import sqlite3
-from CoffeeMachineOrder import CoffeeMachineOrder
-from CoffeeMachineStatus import CoffeeMachineStatus
-import CoffeeMachine
 
-
+from coffee_machine_object import status
+from coffee_machine_object import order
+from coffee_machine_object import constants
 
 
 def getOrderEntries():
@@ -13,7 +12,7 @@ def getOrderEntries():
     rows = c.fetchall()
     orders = []
     for row in rows:
-        orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
+        orders.append(order.CoffeeMachineOrder(row[0],row[1],row[2]))
     return orders
 
 def getLastHundredOrderEntries():
@@ -23,7 +22,7 @@ def getLastHundredOrderEntries():
     rows = c.fetchall()
     orders = []
     for row in rows:
-        orders.append(CoffeeMachineOrder(row[0],row[1],row[2]))
+        orders.append(order.CoffeeMachineOrder(row[0],row[1],row[2]))
     return orders
 
 
@@ -44,7 +43,7 @@ def getStatusEntries():
     rows = c.fetchall()
     statusList = []
     for row in rows:
-        statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+        statusList.append(status.CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
     return statusList
 
 def getLastHundredStatusEntries():
@@ -54,7 +53,7 @@ def getLastHundredStatusEntries():
     rows = c.fetchall()
     statusList = []
     for row in rows:
-        statusList.append(CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+        statusList.append(status.CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
     return statusList
 
 
@@ -65,9 +64,9 @@ def getLatestStatus():
     row = c.fetchone()
     if row is None:
         #Check if DB is Empty
-        return CoffeeMachineStatus("", "", 1, 0, CoffeeMachine.MAXBEANS, CoffeeMachine.MAXMILK, CoffeeMachine.MAXWATER, 0, 0, 0)
+        return status.CoffeeMachineStatus("", "", 1, 0, constants.MAXBEANS, constants.MAXMILK, constants.MAXWATER, 0, 0, 0)
     else:
-        return CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9])
+        return status.CoffeeMachineStatus(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9])
 
 
 
