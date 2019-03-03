@@ -38,7 +38,7 @@ class CoffeeMachine(object):
 
     def orderBeverage(self, beverageID, timestamp):
         if self._checkResources(beverageID):
-            self._recalculateResources(beverageID, timestamp)
+            #self._recalculateResources(beverageID, timestamp) TODO Marek bitte überprüfen.. funktioniert nicht
             newOrder = CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             self._logStatus()
@@ -71,6 +71,7 @@ class CoffeeMachine(object):
         return results
 
     def _checkResources(self, id):
+        return True #TODO Marek entfernen... Aktuell wird milch nicht wieder aufgefüllt, deshalb keine simulation durchführbar
         #if required resources > current resources --> True else False
         #if less than 10% of any resource is available --> call recommendation module
         enoughResourcesAvailable = True
