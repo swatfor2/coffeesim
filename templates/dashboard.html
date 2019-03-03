@@ -67,7 +67,7 @@
                 ID
             </th>
             <th>
-                Zeit
+                Timestamp
             </th>
             <th>
                 PowerOn
@@ -76,13 +76,13 @@
                 energySaver
             </th>
             <th>
-                requiredBeans
+                remainingBeans
             </th>
             <th>
-                requiredMilk
+                remainingMilk
             </th>
             <th>
-                requiredWater
+                remainingWater
             </th>
             <th>
                 pumpRuntime
@@ -195,21 +195,78 @@ for (i = 0; i < orders.length; i++) {
 }
 
 var datasets = [];
+var dataForSet1 = [];
+var dataForSet2 = [];
+var dataForSet3 = [];
+var dataForSet4 = [];
+var dataForSet5 = [];
+var dataForSet6 = [];
 
 for (i = 0; i < labels.length; i++) {
-    var data = []
-    data.push(ordersForGraph1[labels[i]]);
-    data.push(ordersForGraph2[labels[i]]);
-    data.push(ordersForGraph3[labels[i]])
-    data.push(ordersForGraph4[labels[i]]);
-    data.push(ordersForGraph5[labels[i]]);
-    data.push(ordersForGraph6[labels[i]]);
+    dataForSet1.push(checkIfUndefined(ordersForGraph1[labels[i]]));
+}
+newDataSet1 = {
+    label : "Cafe Creme",
+    backgroundColor : "#880088",
+    data : dataForSet1
+}
+for (i = 0; i < labels.length; i++) {
+    dataForSet2.push(checkIfUndefined(ordersForGraph2[labels[i]]));
+}
+newDataSet2 = {
+    label : "Latte Machiatto",
+    backgroundColor : "#008888",
+    data : dataForSet2
+}
+for (i = 0; i < labels.length; i++) {
+    dataForSet3.push(checkIfUndefined(ordersForGraph3[labels[i]]));
+}
+newDataSet3 = {
+    label : "Espresso",
+    backgroundColor : "#0000FF",
+    data : dataForSet3
+}
+for (i = 0; i < labels.length; i++) {
+    dataForSet4.push(checkIfUndefined(ordersForGraph4[labels[i]]));
+}
+newDataSet4 = {
+    label : "Heißes Wasser",
+    backgroundColor : "#008800",
+    data : dataForSet4
+}
+for (i = 0; i < labels.length; i++) {
+    dataForSet5.push(checkIfUndefined(ordersForGraph5[labels[i]]));
+}
+newDataSet5 = {
+    label : "Milchkaffee",
+    backgroundColor : "#888888",
+    data : dataForSet5
+}
+for (i = 0; i < labels.length; i++) {
+    dataForSet6.push(checkIfUndefined(ordersForGraph6[labels[i]]));
+}
+newDataSet6 = {
+    label : "Doppelter Espresso",
+    backgroundColor : "#FF0000",
+    data : dataForSet6
+}
+datasets.push(newDataSet1);
+datasets.push(newDataSet2);
+datasets.push(newDataSet3);
+datasets.push(newDataSet4);
+datasets.push(newDataSet5);
+datasets.push(newDataSet6);
 
-    newDataSet = {
-        labels : labels[i],
-        data : data
+
+
+
+function checkIfUndefined(value){
+    if(typeof value === 'undefined'){
+        return 0;
+    }else{
+        return value;
     }
-    datasets.push(newDataSet);
+
 }
 var barChartData = {labels : labels, datasets : datasets}
 
