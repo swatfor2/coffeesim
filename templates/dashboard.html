@@ -134,18 +134,101 @@
 
 
 
+var ordersForGraph1 = {};
+var ordersForGraph2 = {};
+var ordersForGraph3 = {};
+var ordersForGraph4 = {};
+var ordersForGraph5 = {};
+var ordersForGraph6 = {};
+var labels = []
 
-var ordersForGraph = {};
 for (i = 0; i < orders.length; i++) {
   orders[i]["timestampOrder"] = moment(orders[i]["timestampOrder"],"YYYY-MM-DD").toDate();
   formattedDate = moment(orders[i]["timestampOrder"]).format("YYYY-MM-DD");
 
-  if (ordersForGraph[formattedDate] === null || typeof ordersForGraph[formattedDate] === 'undefined'  ){
-    ordersForGraph[formattedDate] = 1;
-  }else{
-    ordersForGraph[formattedDate] = ordersForGraph[formattedDate] + 1;
+  if(labels.indexOf(formattedDate) == -1){
+      labels.push(formattedDate);
+  }
+
+  if(orders[i]["beverageID"] == '1'){
+      if (ordersForGraph1[formattedDate] === null || typeof ordersForGraph1[formattedDate] === 'undefined'  ){
+          ordersForGraph1[formattedDate] = 1;
+      }else{
+          ordersForGraph1[formattedDate] = ordersForGraph1[formattedDate] + 1;
+      }
+  }
+  else if(orders[i]["beverageID"] == '2'){
+        if (ordersForGraph2[formattedDate] === null || typeof ordersForGraph2[formattedDate] === 'undefined'  ){
+            ordersForGraph2[formattedDate] = 1;
+        }else{
+            ordersForGraph2[formattedDate] = ordersForGraph2[formattedDate] + 1;
+        }
+    }
+    else if(orders[i]["beverageID"] == '3'){
+        if (ordersForGraph3[formattedDate] === null || typeof ordersForGraph3[formattedDate] === 'undefined'  ){
+            ordersForGraph3[formattedDate] = 1;
+        }else{
+            ordersForGraph3[formattedDate] = ordersForGraph3[formattedDate] + 1;
+        }
+    }
+    else if(orders[i]["beverageID"] == '4'){
+        if (ordersForGraph4[formattedDate] === null || typeof ordersForGraph4[formattedDate] === 'undefined'  ){
+            ordersForGraph4[formattedDate] = 1;
+        }else{
+            ordersForGraph4[formattedDate] = ordersForGraph4[formattedDate] + 1;
+        }
+    }
+    else if(orders[i]["beverageID"] == '5'){
+          if (ordersForGraph5[formattedDate] === null || typeof ordersForGraph5[formattedDate] === 'undefined'  ){
+              ordersForGraph5[formattedDate] = 1;
+          }else{
+              ordersForGraph5[formattedDate] = ordersForGraph5[formattedDate] + 1;
+          }
+      }
+    else if(orders[i]["beverageID"] == '6'){
+          if (ordersForGraph6[formattedDate] === null || typeof ordersForGraph6[formattedDate] === 'undefined'  ){
+              ordersForGraph6[formattedDate] = 1;
+          }else{
+              ordersForGraph6[formattedDate] = ordersForGraph6[formattedDate] + 1;
+          }
   }
 }
+
+var datasets = [];
+
+for (i = 0; i < labels.length; i++) {
+    var data = []
+    data.push(ordersForGraph1[labels[i]]);
+    data.push(ordersForGraph2[labels[i]]);
+    data.push(ordersForGraph3[labels[i]])
+    data.push(ordersForGraph4[labels[i]]);
+    data.push(ordersForGraph5[labels[i]]);
+    data.push(ordersForGraph6[labels[i]]);
+
+    newDataSet = {
+        labels : labels[i],
+        data : data
+    }
+    datasets.push(newDataSet);
+}
+var barChartData = {labels : labels, datasets : datasets}
+
+
+/*
+var labels = [];
+var data =[];
+
+for(var k in ordersForGraph){
+    console.log(k);
+    labels.push(k);
+    data.push(ordersForGraph[k]);
+}
+*/
+
+
+
+
+
 
 $(document).ready(function() {
     $('#orderId').DataTable( {
@@ -164,20 +247,23 @@ $(document).ready(function() {
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Vebrauchte Kaffee',
-                data: data,
-                borderWidth: 1
-            }]
-        },
+        data: barChartData,
         options: {
+            title: {
+                display: true,
+                text: 'Chart.js Bar Chart - Stacked'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            responsive: true,
             scales: {
+                xAxes: [{
+                    stacked: true,
+                }],
                 yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
+                    stacked: true
                 }]
             }
         }
@@ -242,14 +328,6 @@ function deleteSimulation() {
 
 }
 
-var labels = [];
-var data =[];
-
-for(var k in ordersForGraph){
-    console.log(k);
-    labels.push(k);
-    data.push(ordersForGraph[k]);
-}
 
 
 </script>

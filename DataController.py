@@ -8,7 +8,7 @@ from coffee_machine_object import constants
 def getOrderEntries():
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM ORDERS")
+    c.execute("SELECT * FROM ORDERS ORDER BY timestampOrder ASC")
     rows = c.fetchall()
     orders = []
     for row in rows:
