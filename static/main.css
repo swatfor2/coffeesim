@@ -76,4 +76,17 @@
     }
 }
 
+.tabs{
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+#tableWrapperOrder{
+    width:50%;
+    margin-top:20px;
+}
+.tabsWrapper{
+    margin-top:20px;
+}
+
 

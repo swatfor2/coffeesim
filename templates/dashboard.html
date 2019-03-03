@@ -24,9 +24,9 @@
 </div>
 
 <div class="tabsWrapper">
-    <span onclick="changeTab('1')">Bestellungen</span>
-    <span onclick="changeTab('2')">Status</span>
-    <span onclick="changeTab('3')">Grafik</span>
+    <span class="tabs" style="font-weight: bold;" onclick="changeTab('1',this)">Bestellungen</span>
+    <span class="tabs" onclick="changeTab('2',this)">Status</span>
+    <span class="tabs" onclick="changeTab('3',this)">Grafik</span>
 </div>
 
 <div id="tableWrapperOrder" style="width:50%;">
@@ -181,22 +181,28 @@ $(document).ready(function() {
 
 } );
 
-function changeTab(tab){
+function changeTab(tab,obj){
     if(tab == 1) {
         jQuery('#tableWrapperStatus').hide();
         jQuery('#chartWrapper').hide()
         jQuery('#tableWrapperOrder').fadeIn();
+        jQuery('.tabs').css('font-weight','normal');
+        jQuery(obj).css('font-weight','bold');
 
 
     }else if(tab == 2){
         jQuery('#tableWrapperStatus').fadeIn();
         jQuery('#chartWrapper').hide()
         jQuery('#tableWrapperOrder').hide();
+        jQuery('.tabs').css('font-weight','normal');
+        jQuery(obj).css('font-weight','bold');
 
     }else if(tab == 3){
         jQuery('#tableWrapperStatus').hide();
         jQuery('#chartWrapper').fadeIn()
         jQuery('#tableWrapperOrder').hide();
+        jQuery('.tabs').css('font-weight','normal');
+        jQuery(obj).css('font-weight','bold');
 
     }
 }

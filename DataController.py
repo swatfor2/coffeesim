@@ -32,7 +32,6 @@ def getLastHundredOrderEntries():
 def addOrderEntry(order):
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
-    print('insert into ORDERS (beverageUUID,timestampOrder) values ({0},"{1}")'.format(order.beverageID,order.timestampOrder))
     c.execute('insert into ORDERS (beverageUUID,timestampOrder) values ({0},"{1}")'.format(order.beverageID,order.timestampOrder))
     conn.commit()
 
@@ -81,7 +80,6 @@ def addStatusEntry(status):
 
 
 def deleteSimulation():
-    print("delete")
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
     c.execute("DELETE FROM STATUS")
