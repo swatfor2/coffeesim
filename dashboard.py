@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from flask import render_template
-from user_interface import next
+from user_interface import Usermodel
 from DataController import *
 from datetime import datetime
 from flask import request
@@ -12,6 +12,7 @@ import time
 import json
 
 app = Flask(__name__)
+userModel = Usermodel()
 
 @app.route('/')
 def renderTemplate():
@@ -22,7 +23,7 @@ def renderTemplate():
 
 
 @app.route('/startSimulation')
-def startSimulation():
+def startSimulation():   
         args = request.args
         wochen = args['wochen']
         #10080 Minuten pro woche
@@ -30,7 +31,7 @@ def startSimulation():
         date = datetime.now();
         for x in range(minuten):
             date = date + timedelta(minutes = 1)
-            next(date)
+            userModel.interact(date)
         return "Simulation abgeschlossen"
 
 @app.route('/deleteSimulation')
@@ -42,7 +43,7 @@ def deleteSimulationCall():
 @app.route('/test')
 def test():
     for x in range(10):
-        next(datetime.now())
+        userModel.interact(datetime.now())
     return "Überprüf das Log"
 
 if __name__ == '__main__':
