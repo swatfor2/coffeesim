@@ -7,12 +7,16 @@ from DataController import *
 from datetime import datetime
 from flask import request
 from datetime import timedelta
+import io
+import csv
+from flask import make_response
 
 import time
 import json
 
 app = Flask(__name__)
 userModel = Usermodel()
+
 
 @app.route('/')
 def renderTemplate():
@@ -39,6 +43,37 @@ def deleteSimulationCall():
         deleteSimulation()
         return "Alle Daten geloescht"
 
+@app.route('/downloadOrders')
+def downloadOrders():
+    si = io.StringIO()
+    cw = csv.writer(si)
+    csvData = [["ID","KaffeId","Datum und Uhrzeit"]];
+    orders = getOrderEntries();
+    for order in orders:
+        orderToAdd = [order.id,order.beverageID,order.timestampOrder]
+        csvData.append(orderToAdd)
+
+    cw.writerows(csvData)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=Bestellungen.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
+
+@app.route('/downloadStatus')
+def downloadStatus():
+    si = io.StringIO()
+    cw = csv.writer(si)
+    csvData = [["ID","Datum und Uhrzeit","Anzeit","Stromsparmodus","Restliche Bohnen","Restliche Milch","Restliches Wasser","Laufzeit Pumpe", "Laufzeit Mühle", "Laufzeit Machine"]];
+    status = getStatusEntries();
+    for stat in status:
+        statusToAdd = [stat.id,stat.timestamp,stat.powerOn,stat.energySaver,stat.remainingBeans,stat.remainingMilk,stat.remainingWater,stat.pumpRuntime,stat.grinderRuntime,stat.machineRuntime]
+        csvData.append(statusToAdd)
+
+    cw.writerows(csvData)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=Status.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 @app.route('/test')
 def test():
