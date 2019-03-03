@@ -18,7 +18,7 @@ class Usermodel(object):
     # =============================================================================
     # ClassName: Usermodel
     # ClassPurpose: emulates a bunch of people with various coffee-prefers
-    # MethodeNames: interact, timecheck, chosseCoffee
+    # MethodeNames: interact, timecheck, chooseCoffee
     # CoffeeIds:
     #           1 - Cafe Creme
     #           2 - Latte Machiatto

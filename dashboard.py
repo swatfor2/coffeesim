@@ -1,3 +1,13 @@
+"""Coffeemachine Simulation
+
+This dashboard allows a simulation of a coffeemachine between 1 and 4 Weeks.
+
+This script requires flask be installed within the Python
+environment you are running this script in.
+
+Author: Marcel Ament - marcel.ament@mercatis.com
+"""
+
 import os
 
 from flask import Flask
@@ -20,6 +30,17 @@ userModel = Usermodel()
 
 @app.route('/')
 def renderTemplate():
+        """Render the template
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        render_template
+            a template with the orders and status in UTF 8
+        """
         orders = getLastHundredOrderEntries();
         orderStr = json.dumps([e.toJSON() for e in getOrderEntries()])
         statusList = getLastHundredStatusEntries();
@@ -27,7 +48,19 @@ def renderTemplate():
 
 
 @app.route('/startSimulation')
-def startSimulation():   
+def startSimulation():
+        """Starts the simulation
+
+        Parameters
+        ----------
+        Weeks
+            Needs the number of weeks as args
+
+        Returns
+        -------
+        String
+            a string that will displayed if the simulation is finished
+        """
         args = request.args
         wochen = args['wochen']
         #10080 Minuten pro woche
@@ -40,11 +73,33 @@ def startSimulation():
 
 @app.route('/deleteSimulation')
 def deleteSimulationCall():
+        """Delete the simulation
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        String
+            a string that will displayed if the simulation is deleted
+        """
         deleteSimulation()
         return "Alle Daten geloescht"
 
 @app.route('/downloadOrders')
 def downloadOrders():
+    """Download the orders as CSV
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        String
+            a commasperated string in a CSV format
+    """
     si = io.StringIO()
     cw = csv.writer(si)
     csvData = [["ID","KaffeId","Datum und Uhrzeit"]];
@@ -61,6 +116,17 @@ def downloadOrders():
 
 @app.route('/downloadStatus')
 def downloadStatus():
+    """Download the Status as CSV
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        String
+            a commasperated string in a CSV format
+        """
     si = io.StringIO()
     cw = csv.writer(si)
     csvData = [["ID","Datum und Uhrzeit","Anzeit","Stromsparmodus","Restliche Bohnen","Restliche Milch","Restliches Wasser","Laufzeit Pumpe", "Laufzeit Mühle", "Laufzeit Machine"]];
