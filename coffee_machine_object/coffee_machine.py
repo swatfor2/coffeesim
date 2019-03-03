@@ -34,13 +34,33 @@ class CoffeeMachine(object):
 
     def orderBeverage(self, beverageID, timestamp):
         if self._checkResources(beverageID):
-            #self._recalculateResources(beverageID, timestamp) TODO Marek bitte überprüfen.. funktioniert nicht
+            self._recalculateResources(beverageID, timestamp) #TODO Marek bitte überprüfen.. funktioniert nicht
             newOrder = order.CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             self._logStatus()
             return True
         else:
             return False
+
+    def turnMachineOff(self):
+        self.coffeeMachineStatus.energySaver = 0
+        self.coffeeMachineStatus.powerOn = 0
+        self._logStatus()
+
+    def turnMachineOn(self):
+        self.coffeeMachineStatus.energySaver = 0
+        self.coffeeMachineStatus.powerOn = 1
+        self._logStatus()
+
+    def turnEnergySaferModeOff(self):
+        self.coffeeMachineStatus.energySaver = 0
+        self.coffeeMachineStatus.powerOn = 1
+        self._logStatus()
+
+    def turnEnergySaferModeOn(self):
+        self.coffeeMachineStatus.energySaver = 1
+        self.coffeeMachineStatus.powerOn = 1
+        self._logStatus()
 
     def fillUpMilk(self):
         self.coffeeMachineStatus.remainingMilk = constants.MAXMILK
@@ -53,7 +73,7 @@ class CoffeeMachine(object):
         return True
 
     def fillUpWater(self):
-        self.coffeeMachineStatus.remainingBeans = constants.MAXWATER
+        self.coffeeMachineStatus.remainingWater = constants.MAXWATER
         self._logStatus()
         return True
 
@@ -67,16 +87,16 @@ class CoffeeMachine(object):
         return results
 
     def _checkResources(self, id):
-        return True #TODO Marek entfernen... Aktuell wird milch nicht wieder aufgefüllt, deshalb keine simulation durchführbar
+        #return True #TODO Marek entfernen... Aktuell wird milch nicht wieder aufgefüllt, deshalb keine simulation durchführbar
         #if required resources > current resources --> True else False
         #if less than 10% of any resource is available --> call recommendation module
         enoughResourcesAvailable = True
 
         #Check if enough resources are available for the order
         if (
-                self.coffeeMachineStatus.remainingBeans >= self._beverageDict.get(id).requiredBeans and
-                self.coffeeMachineStatus.remainingMilk >= self._beverageDict.get(id).requiredMilk and
-                self.coffeeMachineStatus.remainingWater >= self._beverageDict.get(id).requiredWater
+                self.coffeeMachineStatus.remainingBeans >= self._beverageDict.get(id).get("item").requiredBeans and
+                self.coffeeMachineStatus.remainingMilk >= self._beverageDict.get(id).get("item").requiredMilk and
+                self.coffeeMachineStatus.remainingWater >= self._beverageDict.get(id).get("item").requiredWater
         ):
             enoughResourcesAvailable = True
         else:
@@ -85,18 +105,16 @@ class CoffeeMachine(object):
         #Check available Resources and inform recommendation module if necessary
         if self.coffeeMachineStatus.remainingBeans < constants.MAXBEANS * 0.1:
             #Call recommendation module
-            #TODO
-            pass
+            self.fillUpBeans()
 
         if self.coffeeMachineStatus.remainingMilk < constants.MAXMILK * 0.1:
             # Call recommendation module
-            # TODO#
-            pass
+            # TODO Manage communication with recom. module
+            self.fillUpMilk()
 
         if self.coffeeMachineStatus.remainingWater < constants.MAXWATER * 0.1:
             # Call recommendation module
-            # TODO#
-            pass
+            self.fillUpWater()
 
         return enoughResourcesAvailable
 
@@ -105,12 +123,12 @@ class CoffeeMachine(object):
         self.coffeeMachineStatus.powerOn = 1
         self.coffeeMachineStatus.energySaver = 0
         self.coffeeMachineStatus.timestamp = timestamp
-        self.coffeeMachineStatus.grinderRuntime += self._beverageDict.get(id).grinderRuntime
+        self.coffeeMachineStatus.grinderRuntime += self._beverageDict.get(id).get("item").grinderRuntime
         self.coffeeMachineStatus.id = ""
-        self.coffeeMachineStatus.pumpRuntime += self._beverageDict.get(id).pumpRuntime
-        self.coffeeMachineStatus.remainingBeans -= self._beverageDict.get(id).requiredBeans
-        self.coffeeMachineStatus.remainingMilk -= self._beverageDict.get(id).requiredMilk
-        self.coffeeMachineStatus.remainingWater -= self._beverageDict.get(id).requiredWater
+        self.coffeeMachineStatus.pumpRuntime += self._beverageDict.get(id).get("item").pumpRuntime
+        self.coffeeMachineStatus.remainingBeans -= self._beverageDict.get(id).get("item").requiredBeans
+        self.coffeeMachineStatus.remainingMilk -= self._beverageDict.get(id).get("item").requiredMilk
+        self.coffeeMachineStatus.remainingWater -= self._beverageDict.get(id).get("item").requiredWater
         self.coffeeMachineStatus.machineRuntime += 30
 
     def _logOrder(self, newOrder):
