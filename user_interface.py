@@ -49,18 +49,18 @@ class Usermodel(object):
            {'1': 0 , '2': 100, '3': 0, '4': 100, '5': 100, '6': 0}         #using only the reccomendation but no balck coffee
            ]
         random.seed()
+        self.coffeeMachine = CoffeeMachine()
         
     def interact(self, timestamp):
         # =============================================================================
         # MethodPurpose: Get the available coffees from the coffeemachine multiplies it with a ranodm user from the user-models. 
         # 0-3 coffees are ordered in one method-call
         # =============================================================================
-        coffeeMachine = CoffeeMachine()
+        
         if(self.timecheck(timestamp)):
             for i in range(randint(0,3)):
-                orderlist = coffeeMachine.getBeverageList()
-                coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp)  
-                print(self.chooseCoffee(orderlist))
+                orderlist = self.coffeeMachine.getBeverageList()
+                self.coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp)  
         else:
             pass   
         
@@ -86,7 +86,5 @@ class Usermodel(object):
         returnlist["4"] = self.modellist[random_value]["4"] * orderlist["4"]["score"]
         returnlist["5"] = self.modellist[random_value]["5"] * orderlist["5"]["score"]
         returnlist["6"] = self.modellist[random_value]["6"] * orderlist["6"]["score"]
-        #sortedList = OrderedDict(sorted(returnlist.items(), key = itemgetter(1), reverse = True))
         sortedList = OrderedDict(sorted(returnlist.items(), key=lambda x: -x[1]))
-        #print(sortedList)
         return(sortedList.popitem(last=False)[0])
