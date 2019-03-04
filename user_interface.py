@@ -37,10 +37,11 @@ class Usermodel(object):
         # =============================================================================
         self.modellist = [
            {'1': 0 , '2': 0, '3': 0, '4': 100, '5': 0, '6': 0},            #just tea
-           {'1': 100 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 25},          #only black coffe
-           {'1': 0 , '2': 100, '3': 0, '4': 25, '5': 60, '6': 0},          #just white coffee with the pereferation of Latte Machiatto
-           {'1': 25 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 100},         #prefering espresso
-           {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 100, '6': 0},          #just white coffee with the pereferation of Milchkaffee
+           {'1': 50 , '2': 0, '3': 80, '4': 15, '5': 0, '6': 80},        #only black coffe
+           {'1': 0 , '2': 90, '3': 0, '4': 25, '5': 60, '6': 0},           #just white coffee with the pereferation of Latte Machiatto
+           {'1': 25 , '2': 0, '3': 100, '4': 15, '5': 0, '6': 100},        #prefering espresso
+           {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 90, '6': 0},           #just white coffee with the pereferation of Milchkaffee
+           {'1': 0 , '2': 0, '3': 80, '4': 0, '5': 0, '6': 80},          #preferring double espresso
            {'1': 80 , '2': 50, '3': 0, '4': 30, '5': 70, '6': 0},          #no preferations
            {'1': 80 , '2': 70, '3': 0, '4': 30, '5': 50, '6': 0},          #no preferations 2
            {'1': 100 , '2': 100, '3': 100, '4': 100, '5': 100, '6': 100},  #using only the reccomendation
