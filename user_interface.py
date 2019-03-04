@@ -37,7 +37,7 @@ class Usermodel(object):
         # =============================================================================
         self.modellist = [
            {'1': 0 , '2': 0, '3': 0, '4': 100, '5': 0, '6': 0},            #just tea
-           {'1': 80 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 25},          #only black coffe
+           {'1': 100 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 25},          #only black coffe
            {'1': 0 , '2': 100, '3': 0, '4': 25, '5': 60, '6': 0},          #just white coffee with the pereferation of Latte Machiatto
            {'1': 25 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 100},         #prefering espresso
            {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 100, '6': 0},          #just white coffee with the pereferation of Milchkaffee
@@ -85,5 +85,7 @@ class Usermodel(object):
         returnlist["4"] = self.modellist[random_value]["4"] * orderlist["4"]["score"]
         returnlist["5"] = self.modellist[random_value]["5"] * orderlist["5"]["score"]
         returnlist["6"] = self.modellist[random_value]["6"] * orderlist["6"]["score"]
-        sortedList = OrderedDict(sorted(returnlist.items(), key = itemgetter(1), reverse = True))
+        #sortedList = OrderedDict(sorted(returnlist.items(), key = itemgetter(1), reverse = True))
+        sortedList = OrderedDict(sorted(returnlist.items(), key=lambda x: -x[1]))
+        #print(sortedList)
         return(sortedList.popitem(last=False)[0])
