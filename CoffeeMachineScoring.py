@@ -2,7 +2,6 @@ from math import *
 from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
 from coffee_machine_object import constants
-from CoffeeMachine import CoffeeMachine
 
 
 
@@ -80,7 +79,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingBeans
-		a = a/MAXBEANS
+		a = a/constants.MAXBEANS
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (-a+10)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
@@ -109,7 +108,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingWater
-		a = a/MAXWATER
+		a = a/constants.MAXWATER
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (-a+10)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
@@ -220,9 +219,9 @@ class CoffeeMachineScoring(object):
 		weekday = date.weekday()
 		#nachgefüllt wird Mo., Di. & Mi.
 		if (weekday < 3):
-			CoffeeMachine.fillUpMilk()
+			return True
 		else:
-			pass
+			return False
 		
 		
 		
