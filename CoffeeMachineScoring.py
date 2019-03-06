@@ -1,7 +1,10 @@
 from math import *
-from coffee_machine_object import BeverageList, BeverageItem
 from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
+from CoffeeMachine import MAXMILK, MAXWATER, MAXBEANS
+from CoffeeMachine import CoffeeMachine
+
+
 
 #beverageID, name, requiredBeans, requiredMilk, requiredWater, pumpRuntime, grinderRuntime
 BeverageListe = [(1, "Café Crème", 5, 0, 150, 10, 5), (2, "Latte Machiatto", 4, 100, 100, 15, 4), (3, "Esprèsso", 5, 0, 25, 10, 5), (4, "Hot Water", 0, 0, 200, 15, 5), (5, "Milchkaffee", 5, 50, 150, 15, 5), (6, "Doppelter Esprèsso", 10, 0, 50, 20, 10)]
@@ -43,7 +46,7 @@ class CoffeeMachineScoring(object):
 		print("ScoringListe nach Wasser")
 		print(scoringList)
 
-		return scoringList
+		return(scoringList)
 
 
 	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Milch, sowie der benötigten Milchmenge pro Tasse. 
@@ -52,7 +55,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingMilk
-		a = a/10000
+		a = a/MAXMILK
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (12.16*(0.84**a)-2)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
@@ -77,7 +80,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingBeans
-		a = a/10
+		a = a/MAXBEANS
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (-a+10)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
@@ -106,7 +109,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingWater
-		a = a/100
+		a = a/MAXWATER
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (-a+10)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
@@ -188,7 +191,6 @@ class CoffeeMachineScoring(object):
 	#die IDs der Kaffees werden nach Beliebtheit in der Liste Beliebtheit eingeordnet	
 		for k in bestellung:
 			beliebtheit.append(k[1])
-
 	#Rating wird in ScoringListe addiert
 		zahl = 6
 	# muss noch kommentiert werden ##########################################
@@ -202,15 +204,29 @@ class CoffeeMachineScoring(object):
                         
 		
 	
-	#muss automatisch ausgeführt werden ##########################################
+	#Funktion um Kaffeemaschine in den Nachtmodus zu setzen
 	def powersaver(date):
 		hour = int(date.strftime("%H"))
 		if(hour > 22) & (hour <5):
 			return False
 		else:
 			return True
-
-
-print(CoffeeMachineScoring.berechnungScore(datetime.now()))
+			
+			
+			
+			
+	#Entscheidung, ob die Milch nachgefüllt werden soll
+	def decision(date):
+		weekday = date.weekday()
+		#nachgefüllt wird Mo., Di. & Mi.
+		if (weekday < 3):
+			CoffeeMachine.fillUpMilk()
+		else:
+			pass
+		
+		
+		
+	
+print(CoffeeMachineScoring.decision(datetime.now()))
 
 
