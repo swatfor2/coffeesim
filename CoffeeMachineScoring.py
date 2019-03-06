@@ -1,7 +1,7 @@
 from math import *
 from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
-from CoffeeMachine import MAXMILK, MAXWATER, MAXBEANS
+from coffee_machine_object import constants
 from CoffeeMachine import CoffeeMachine
 
 
@@ -55,7 +55,7 @@ class CoffeeMachineScoring(object):
 		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingMilk
-		a = a/MAXMILK
+		a = a/constants.MAXMILK
 		#funktion zur Berechung des y-Werts der Funktion
 		y = (12.16*(0.84**a)-2)*10
 		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
