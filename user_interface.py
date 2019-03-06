@@ -59,7 +59,7 @@ class Usermodel(object):
         
         if(self.timecheck(timestamp)):
             for i in range(randint(0,3)):
-                orderlist = self.coffeeMachine.getBeverageList()
+                orderlist = self.coffeeMachine.getBeverageList(timestamp)
                 self.coffeeMachine.orderBeverage(self.chooseCoffee(orderlist), timestamp)  
         else:
             pass   

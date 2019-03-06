@@ -43,6 +43,7 @@ class CoffeeMachineScoring(object):
 		print("ScoringListe nach Wasser")
 		print(scoringList)
 
+		return scoringList
 
 
 	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Milch, sowie der benötigten Milchmenge pro Tasse. 

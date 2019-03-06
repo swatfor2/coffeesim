@@ -2,6 +2,7 @@ from coffee_machine_object import order
 from coffee_machine_object import BeverageList, BeverageItem
 from coffee_machine_object import constants
 from DataController import addOrderEntry, getOrderEntries, getLatestStatus, addStatusEntry
+from CoffeeMachineScoring import CoffeeMachineScoring
 import datetime
 
 
@@ -13,8 +14,8 @@ class CoffeeMachine(object):
         self.beverageList = BeverageList()
         self._standardBeverages = self.beverageList.getBeverageList()
         self._beverageDict = self.beverageList.getBeverageDict()
-        self._scoredBeverages = []
         self.coffeeMachineStatus = self._startUp()
+        #self.coffeeMachineScoring = CoffeeMachineScoring()
 
     def _startUp(self):
         #check and get the States of the Machine
@@ -24,17 +25,25 @@ class CoffeeMachine(object):
 
         return tempCoffeeMachineStatus
 
-    def getBeverageList(self):
+    def getBeverageList(self, timestamp):
         #List format not defined yet
         if self._checkRecommendationModule():
-            self._scoredBeverages = self._getScoredBeverageList()
-            return self._scoredBeverages
+            scoredBeverages = self._getScoredBeverageList(timestamp)
+            for score in scoredBeverages:
+                tempBeverage = self._beverageDict.get(str(score[0]))
+                tempBeverage["score"] = score[1]
+                self._beverageDict[str(score[0])] = tempBeverage
+            return self._beverageDict
         else:
+            for i in range(len(self._beverageDict)):
+                tempBeverage = self._beverageDict.get(str(i + 1))
+                tempBeverage["score"] = 0
+                self._beverageDict[str(i + 1)] = tempBeverage
             return self._beverageDict
 
     def orderBeverage(self, beverageID, timestamp):
         if self._checkResources(beverageID):
-            self._recalculateResources(beverageID, timestamp) #TODO Marek bitte überprüfen.. funktioniert nicht
+            self._recalculateResources(beverageID, timestamp)
             newOrder = order.CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
             self._logStatus()
@@ -79,15 +88,14 @@ class CoffeeMachine(object):
 
     def _checkRecommendationModule(self):
         #Is Recommendation Moduloe is active
-        return False
+        return True
     
-    def _getScoredBeverageList(self):
+    def _getScoredBeverageList(self, timestamp):
         #Request an Recommendation Module
-        results = []
+        results = CoffeeMachineScoring.berechnungScore(timestamp)
         return results
 
     def _checkResources(self, id):
-        #return True #TODO Marek entfernen... Aktuell wird milch nicht wieder aufgefüllt, deshalb keine simulation durchführbar
         #if required resources > current resources --> True else False
         #if less than 10% of any resource is available --> call recommendation module
         enoughResourcesAvailable = True
