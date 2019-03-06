@@ -31,13 +31,16 @@ class CoffeeMachine(object):
             scoredBeverages = self._getScoredBeverageList(timestamp)
             for score in scoredBeverages:
                 tempBeverage = self._beverageDict.get(str(score[0]))
-                tempBeverage["score"] = score[1]
+                if score[1] >= 1:
+                    tempBeverage["score"] = score[1]
+                else:
+                    tempBeverage["score"] = 1
                 self._beverageDict[str(score[0])] = tempBeverage
             return self._beverageDict
         else:
             for i in range(len(self._beverageDict)):
                 tempBeverage = self._beverageDict.get(str(i + 1))
-                tempBeverage["score"] = 0
+                tempBeverage["score"] = 1
                 self._beverageDict[str(i + 1)] = tempBeverage
             return self._beverageDict
 
