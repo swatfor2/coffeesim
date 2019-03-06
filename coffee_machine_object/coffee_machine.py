@@ -51,24 +51,28 @@ class CoffeeMachine(object):
         else:
             return False
 
-    def turnMachineOff(self):
+    def turnMachineOff(self, timestamp):
         self.coffeeMachineStatus.energySaver = 0
         self.coffeeMachineStatus.powerOn = 0
+        self.coffeeMachineStatus.timestamp = timestamp
         self._logStatus()
 
-    def turnMachineOn(self):
+    def turnMachineOn(self, timestamp):
         self.coffeeMachineStatus.energySaver = 0
         self.coffeeMachineStatus.powerOn = 1
+        self.coffeeMachineStatus.timestamp = timestamp
         self._logStatus()
 
-    def turnEnergySaferModeOff(self):
+    def turnEnergySaferModeOff(self, timestamp):
         self.coffeeMachineStatus.energySaver = 0
         self.coffeeMachineStatus.powerOn = 1
+        self.coffeeMachineStatus.timestamp = timestamp
         self._logStatus()
 
-    def turnEnergySaferModeOn(self):
+    def turnEnergySaferModeOn(self, timestamp):
         self.coffeeMachineStatus.energySaver = 1
         self.coffeeMachineStatus.powerOn = 1
+        self.coffeeMachineStatus.timestamp = timestamp
         self._logStatus()
 
     def fillUpMilk(self):
