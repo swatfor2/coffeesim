@@ -42,7 +42,7 @@ class CoffeeMachine(object):
             return self._beverageDict
 
     def orderBeverage(self, beverageID, timestamp):
-        if self._checkResources(beverageID):
+        if self._checkResources(beverageID, timestamp):
             self._recalculateResources(beverageID, timestamp)
             newOrder = order.CoffeeMachineOrder("", beverageID, timestamp)
             self._logOrder(newOrder)
@@ -75,17 +75,17 @@ class CoffeeMachine(object):
         self.coffeeMachineStatus.timestamp = timestamp
         self._logStatus()
 
-    def fillUpMilk(self):
+    def _fillUpMilk(self):
         self.coffeeMachineStatus.remainingMilk = constants.MAXMILK
         self._logStatus()
         return True
 
-    def fillUpBeans(self):
+    def _fillUpBeans(self):
         self.coffeeMachineStatus.remainingBeans = constants.MAXBEANS
         self._logStatus()
         return True
 
-    def fillUpWater(self):
+    def _fillUpWater(self):
         self.coffeeMachineStatus.remainingWater = constants.MAXWATER
         self._logStatus()
         return True
@@ -99,7 +99,7 @@ class CoffeeMachine(object):
         results = CoffeeMachineScoring.berechnungScore(timestamp)
         return results
 
-    def _checkResources(self, id):
+    def _checkResources(self, id, timestamp):
         #if required resources > current resources --> True else False
         #if less than 10% of any resource is available --> call recommendation module
         enoughResourcesAvailable = True
@@ -117,16 +117,19 @@ class CoffeeMachine(object):
         #Check available Resources and inform recommendation module if necessary
         if self.coffeeMachineStatus.remainingBeans < constants.MAXBEANS * 0.1:
             #Call recommendation module
-            self.fillUpBeans()
+            self._fillUpBeans()
 
         if self.coffeeMachineStatus.remainingMilk < constants.MAXMILK * 0.1:
             # Call recommendation module
-            # TODO Manage communication with recom. module
-            self.fillUpMilk()
+            if CoffeeMachineScoring.decision(timestamp):
+                self._fillUpMilk()
+            else:
+                #print("Out of milk.")
+                pass
 
         if self.coffeeMachineStatus.remainingWater < constants.MAXWATER * 0.1:
             # Call recommendation module
-            self.fillUpWater()
+            self._fillUpWater()
 
         return enoughResourcesAvailable
 
