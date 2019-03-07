@@ -1,20 +1,47 @@
-#Empfehlungsmodul mit Randbedingungen
-#Gruppe 4
+# =============================================================================
+# Project: Simulation einer Kaffeemaschine
+# ClassName: Empfehlungsmodul mit Randbedingungen
+# ClassPurpose: 1) Erstellt eine Scoringliste, um das Benutzerverhalten zu beeinflussen.
+#               2) Rahmenbedingungen erstellen, um die Situation realistischer zu gestallten. 
+# Inputs: Timestamp
+# Outputs: Scoringlist und Rehmenbedingungen 
+# Author: WWI2016A - Anna Zaczek, Silja Barth, Kerstin Hofelich, Tim Decker-Conradi
+# GitRepository: https://github.com/florianstoeber/coffeesim
+# =============================================================================
 
 from math import *
 from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
 from coffee_machine_object import constants
 
-
-
-#beverageID, name, requiredBeans, requiredMilk, requiredWater, pumpRuntime, grinderRuntime
+# =============================================================================
+# GlobalList: BeverageListe
+# CoffeeIds:
+#           1 - Cafe Creme
+#           2 - Latte Machiatto
+#           3 - Espresso
+#           4 - Hot Water (tea)
+#           5 - Milchkaffee
+#           6 - Doppelter Espresso
+# ListPostions: 
+#           1 - beverageID
+#           2 - name
+#           3 - requireBeans
+#           4 - requiredMilk
+#           5 - requiredWater
+#           6 - pumpRuntime
+#           7 - grinderRuntime
+# =============================================================================
 BeverageListe = [(1, "Café Crème", 5, 0, 150, 10, 5), (2, "Latte Machiatto", 4, 100, 100, 15, 4), (3, "Esprèsso", 5, 0, 25, 10, 5), (4, "Hot Water", 0, 0, 200, 15, 5), (5, "Milchkaffee", 5, 50, 150, 15, 5), (6, "Doppelter Esprèsso", 10, 0, 50, 20, 10)]
 
 	
 
 class CoffeeMachineScoring(object): 
-
+# =============================================================================
+# ClassName: CoffeeMachineScoring
+# ClassPurpose: erstellen einer Scoringliste
+# MethodeNames: berechnungScore, perishablemilk, perishablecoffee, perishablewater, daytime, popularity, powersaver
+# =============================================================================
 	def __init__(self):
 		self.ScoringList = {}
 
