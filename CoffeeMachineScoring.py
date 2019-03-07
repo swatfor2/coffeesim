@@ -58,11 +58,11 @@ class CoffeeMachineScoring(object):
         	# =====================================================================
 		scoringList = []
 		for i in BeverageListe:
-			scoringList.append([i[0], 0]					#ScoringWert Tageszeit abrufen
-		CoffeeMachineScoring.daytime(scoringList,date)				#ScoringWert Beliebtheit abrufen
-		CoffeeMachineScoring.popularity(scoringList, bestellliste)		#ScoringWert Milch abrufen
-		CoffeeMachineScoring.perishablemilk(scoringList, status)		#Scoring Bohnen abrufen
-		CoffeeMachineScoring.perishablecoffee(scoringList, status)		#Scoring Wasser abrufen
+			scoringList.append([i[0], 0]					# ScoringWert Tageszeit abrufen
+		CoffeeMachineScoring.daytime(scoringList,date)				# ScoringWert Beliebtheit abrufen
+		CoffeeMachineScoring.popularity(scoringList, bestellliste)		# ScoringWert Milch abrufen
+		CoffeeMachineScoring.perishablemilk(scoringList, status)		# Scoring Bohnen abrufen
+		CoffeeMachineScoring.perishablecoffee(scoringList, status)		# Scoring Wasser abrufen
 		CoffeeMachineScoring.perishablewater(scoringList, status)
 		return(scoringList)
 
@@ -72,139 +72,104 @@ class CoffeeMachineScoring(object):
 		# Input: Scoringlist, Füllmengen
 		# Output: neue Scouringliste
         	# =====================================================================
-		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
-		#a ist die Füllmenge (10 = 100%)
-		a = status.remainingMilk
+		a = status.remainingMilk						# rufe die Liste der Füllmengen (10 = 100%)
 		a = a/constants.MAXMILK
-		#funktion zur Berechung des y-Werts der Funktion
-		y = (12.16*(0.84**a)-2)*10
-		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
-		for sorte in scoringList:
-			#zahl ist der Scoringwert der Kaffeesorte
+		y = (12.16*(0.84**a)-2)*10						# Funktion zur Bestimmung des negativen Scoringwerts
+		for sorte in scoringList:						# Aufruf der Scoringliste
 			zahl = sorte[1]
-			#if-Abfrage um nach MIlchprodukten zu filtern
-			if (sorte[0] == 2):
-				#Scoringwert wird reduziert
-				sorte[1] = round((zahl-(zahl/100*y)))
+			if (sorte[0] == 2):						# Abfrage nach Milchprodukten
+				sorte[1] = round((zahl-(zahl/100*y)))			# Scoringwert wird reduziert
 			elif (sorte[0] == 5):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/200*y))
+				sorte[1] = round(zahl-(zahl/200*y))			# Scoringwert wird reduziert
 			else:
 				pass
-		#Liefert neue Scoringliste zurück
 		return(scoringList)
-		
-	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Bohnen, sowie der benötigten Bohnenmenge pro Tasse. 
+		 
 	def perishablecoffee(scoringList, status):
-		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
-		#a ist die Füllmenge (10 = 100%)
-		a = status.remainingBeans
+		# =====================================================================
+        	# MethodPurpose: reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Bohnen, sowie der benötigten Bohnenmenge pro Tasse. 
+		# Input: Scoringlist, Füllmengen
+		# Output: neue Scouringliste
+        	# =====================================================================
+		a = status.remainingBeans						# rufe die Liste der Füllmengen (10 = 100%)
 		a = a/constants.MAXBEANS
-		#funktion zur Berechung des y-Werts der Funktion
-		y = (-a+10)*10
-		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
-		for sorte in scoringList:
-			#zahl ist der Scoringwert der Kaffeesorte
+		y = (-a+10)*10								# Funktion zur Bestimmung des negativen Scoringwerts
+		for sorte in scoringList:						# Aufruf der Scoringliste
 			zahl = sorte[1]
-			#if-Abfrage um nach Kaffeemenge zu filtern
-			if (sorte[0] == 6):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/100*y))
-			elif (sorte[0] == 1) or (sorte[0] == 3) or (sorte[0] == 5):
-				#Scoringwert wird reduziert
+			if (sorte[0] == 6):						# Abfrage nach Kaffeemengen
+				sorte[1] = round(zahl-(zahl/100*y))			# Scoringwert wird reduziert
+			elif (sorte[0] == 1) or (sorte[0] == 3) or (sorte[0] == 5):	# Scoringwert wird reduziert
 				sorte[1] = round(zahl-(zahl/150*y))
 			elif (sorte[0] == 2):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/200*y))
+				sorte[1] = round(zahl-(zahl/200*y))			# Scoringwert wird reduziert
 			else:
 				pass
-		#Liefert neue Scoringliste zurück
 		return(scoringList)
 		
-		
-	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand des Wassers, sowie der benötigten Wassermenge pro Tasse. 
 	def perishablewater(scoringList, status):
-		#rufe die Liste der Füllmengen aus der Datenbank ab
-		#a ist die Füllmenge (10 = 100%)
-		a = status.remainingWater
+		# =====================================================================
+        	# MethodPurpose: reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand des Wassers, sowie der benötigten Wassermenge pro Tasse.  
+		# Input: Scoringlist, Füllmengen
+		# Output: neue Scouringliste
+        	# =====================================================================
+		a = status.remainingWater						# rufe die Liste der Füllmengen (10 = 100%)
 		a = a/constants.MAXWATER
-		#funktion zur Berechung des y-Werts der Funktion
-		y = (-a+10)*10
-		#Schleife um jeweiliges Produkt aus der scoringList aufzurufen
-		for sorte in scoringList:
-			#zahl ist der Scoringwert des Wassers
+		y = (-a+10)*10								# Funktion zur Bestimmung des negativen Scoringwerts
+		for sorte in scoringList:						# Aufruf der Scoringliste
 			zahl = sorte[1]
-			#if-Abfrage um nach Wassermenge zu filtern
-			if (sorte[0] == 4):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/100*y))
+			if (sorte[0] == 4):						# Abfrage nach Wassermenge
+				sorte[1] = round(zahl-(zahl/100*y))			# Scoringwert wird reduziert
 			elif (sorte[0] == 1) or (sorte[0] == 5):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/150*y))
+				sorte[1] = round(zahl-(zahl/150*y))			# Scoringwert wird reduziert
 			elif (sorte[0] == 2):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/180*y))
+				sorte[1] = round(zahl-(zahl/180*y))			# Scoringwert wird reduziert
 			elif (sorte[0] == 6):
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/200*y))
+				sorte[1] = round(zahl-(zahl/200*y))			# Scoringwert wird reduziert
 			else:
-				#Scoringwert wird reduziert
-				sorte[1] = round(zahl-(zahl/220*y))
-		#Liefert neue Scoringliste zurück
+				sorte[1] = round(zahl-(zahl/220*y))			# Scoringwert wird reduziert
 		return(scoringList)
 	
-	
-	#Funktion zum Ermitteln und werten der typischen Beliebtheit von Produkten nach Tagezeiten
 	def daytime(liste, date):
-		#liefert die aktuelle Stunde zurück
-		hour = int(date.strftime("%H"))
-		#sortiert nach Tageszeit
-		if (hour > 5) & (hour < 13):
+		# =====================================================================
+        	# MethodPurpose: Funktion zum Ermitteln und werten der typischen Beliebtheit von Produkten nach Tagezeiten.
+		# Input: Kaffeeliste, Timestamp
+		# Output: Scouringliste (liste)
+        	# =====================================================================
+		hour = int(date.strftime("%H"))						# bestimmen der Stunde zur Bestellung
+		if (hour > 5) & (hour < 13):						# sortiert nach Tageszeit
 			for element in liste:
-				#Auswahl von Kaffee und Milchkaffe
-				if (element[0]==1) or (element[0]==5):
-					#Scoringwert steigt um 2
-					element[1] +=2
+				if (element[0]==1) or (element[0]==5):			# Auswahl Kaffee und Milchkaffee
+					element[1] +=2					# Scoringwert steigt um 2
 		elif (hour >= 13) & (hour < 18):
-			#Auswahl von Espresse
-			for element in liste:
+			for element in liste:						# Auswahl Espresse
 				if (element[0]==3) or (element[0]==6):
-					#Scoringwert steigt um 2
-					element[1] +=2
+					element[1] +=2					# Scoringwert steigt um 2
 		else:
 			for element in liste:
-				#Auswahl von Latte und heißem Wasser
-				if (element[0]==2) or (element[0]==4):
-					#Scoringwert steigt um 2
-					element[1] +=2
-		#Bestimmung der Zeitzone um daraus Prios zu setzen
-		return(liste)
+				if (element[0]==2) or (element[0]==4):			# Auswahl von Latte und heißem Wasser
+					element[1] +=2					# Scoringwert steigt um 2
+		return(liste)								# Bestimmung der Zeitzone um daraus Prios zu setzen
 				
-		
-	#Funktion sortiert die Getränke nach Beliebtheit
 	def popularity(liste, bestellliste):
-	#leerer Zähler
+		# =====================================================================
+        	# MethodPurpose: Funktion sortiert die Getränke nach Beliebtheit
+		# Input: Kaffeeliste, Bestellliste
+		# Output: Scouringliste (liste)
+        	# =====================================================================
 		zaehler = [0,0,0,0,0,0]
-	#Zahlenwert wird festgelegt
-		drinkID = 1
-	#Mittels der Schleife wird ein Dictionary erstellt Key=ID des Getränks, Value=Anzahl der Bestellungen
-		for j in zaehler:
+		drinkID = 1								# Zahlenwert wird festgelegt
+		for j in zaehler:							# Dictionary wird erstellt Key=ID des Getränks, Value=Anzahl der Bestellungen
 			zahl = drinkID-1
 			bestellliste[drinkID] = zaehler[zahl]
 			drinkID += 1
-	#Dictionary wird in Liste umgewandelt [(),(),...]
-		bestellung = [(val,key)for key,val in dictonary.items()]
-	#Dictionary wird nach Anzahl (Value) zunächst aufsteigend und anschließend absteigend sortiert	
-		bestellung.sort()
+		bestellung = [(val,key)for key,val in dictonary.items()]		# Dictionary wird in Liste umgewandelt [(),(),...]	
+		bestellung.sort()							# Dictionary wird nach Anzahl (Value) zunächst aufsteigend und anschließend absteigend sortiert
 		bestellung.reverse()
-		beliebtheit = []
-	#die IDs der Kaffees werden nach Beliebtheit in der Liste Beliebtheit eingeordnet	
-		for k in bestellung:
-			beliebtheit.append(k[1])
-	#Rating wird in ScoringListe addiert
+		beliebtheit = []	
+		for k in bestellung:							# IDs der Kaffees werden nach Beliebtheit in der Liste Beliebtheit eingeordnet
+			beliebtheit.append(k[1])					# Rating wird in ScoringListe addiert
 		zahl = 6
-	# muss noch kommentiert werden ##########################################
-		for element in beliebtheit:
+		for element in beliebtheit:						# muss noch kommentiert werden ##########################################
 			listenwert = element-1
 			aktuellerScore = liste[listenwert][1]
 			neuerScore = aktuellerScore + zahl
@@ -212,31 +177,28 @@ class CoffeeMachineScoring(object):
 			zahl = zahl - 1
 		return(liste)
                         
-		
-	
-	#Funktion um Kaffeemaschine in den Nachtmodus zu setzen
 	def powersaver(date):
-		hour = int(date.strftime("%H"))
-		if(hour > 22) & (hour <5):
+		# =====================================================================
+        	# MethodPurpose: Funktion um Kaffeemaschine in den Nachtmodus zu setzen
+		# Input: Timestamp
+		# Output: Tagezeit
+        	# =====================================================================
+		hour = int(date.strftime("%H"))						# bestimmen der Stunde zur Bestellung
+		if(hour > 22) & (hour <5):						# schaltet zwischen 22 - 5 Uhr MASCHINE aus
 			return False
 		else:
 			return True
 			
-			
-			
-			
-	#Entscheidung, ob die Milch nachgefüllt werden soll
 	def decision(date):
-		weekday = date.weekday()
-		#nachgefüllt wird Mo., Di. & Mi.
-		if (weekday < 3):
+		# =====================================================================
+        	# MethodPurpose: Entscheidung, ob die Milch nachgefüllt werden soll
+		# Input: Timestamp
+		# Output: Wochentag
+        	# =====================================================================
+		weekday = date.weekday()						# bestimmt den Wochentag der Bestellung
+		if (weekday < 3):							# nachgefüllt wird Mo., Di. & Mi.
 			return True
 		else:
 			return False
-		
-		
-		
-	
-#print(CoffeeMachineScoring.decision(datetime.now()))
 
 
