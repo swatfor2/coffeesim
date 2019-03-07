@@ -14,7 +14,7 @@ from DataController import getStatusEntries, getOrderEntries, getLatestStatus
 from datetime import datetime
 from coffee_machine_object import constants
 
-# =============================================================================
+# =====================================================================================
 # GlobalList: BeverageListe
 # CoffeeIds:
 #           1 - Cafe Creme
@@ -31,40 +31,47 @@ from coffee_machine_object import constants
 #           5 - requiredWater
 #           6 - pumpRuntime
 #           7 - grinderRuntime
-# =============================================================================
+# =====================================================================================
 BeverageListe = [(1, "Café Crème", 5, 0, 150, 10, 5), (2, "Latte Machiatto", 4, 100, 100, 15, 4), (3, "Esprèsso", 5, 0, 25, 10, 5), (4, "Hot Water", 0, 0, 200, 15, 5), (5, "Milchkaffee", 5, 50, 150, 15, 5), (6, "Doppelter Esprèsso", 10, 0, 50, 20, 10)]
 
 	
 
 class CoffeeMachineScoring(object): 
-# =============================================================================
+# =====================================================================================
 # ClassName: CoffeeMachineScoring
 # ClassPurpose: erstellen einer Scoringliste
-# MethodeNames: berechnungScore, perishablemilk, perishablecoffee, perishablewater, daytime, popularity, powersaver
-# =============================================================================
+# MethodeNames: berechnungScore, perishablemilk, perishablecoffee, perishablewater, daytime, popularity, powersaver, decision
+# =====================================================================================
+
 	def __init__(self):
 		self.ScoringList = {}
-
+        # =============================================================================
+        # MethodPurpose: Initiierung des Objekts
+        # =============================================================================
+	
 	#Funktion, die den Scouringwert berechnet
 	def berechnungScore(date, status, bestellliste):
+		# =====================================================================
+        	# MethodPurpose: Berechnung der Scoringwerts jeder Kaffeesorte
+		# Input: Timestamp, Füllmengen, Anzahl der bestellten Getränke
+		# Output: Scouringliste
+        	# =====================================================================
 		scoringList = []
 		for i in BeverageListe:
-			scoringList.append([i[0], 0])
-		#ScoringWert Tageszeit abrufen
-		CoffeeMachineScoring.daytime(scoringList,date)
-		#ScoringWert Beliebtheit abrufen
-		CoffeeMachineScoring.popularity(scoringList, bestellliste)
-		#ScoringWert Milch abrufen
-		CoffeeMachineScoring.perishablemilk(scoringList, status)
-		#Scoring Bohnen abrufen
-		CoffeeMachineScoring.perishablecoffee(scoringList, status)
-		#Scoring Wasser abrufen
+			scoringList.append([i[0], 0]					#ScoringWert Tageszeit abrufen
+		CoffeeMachineScoring.daytime(scoringList,date)				#ScoringWert Beliebtheit abrufen
+		CoffeeMachineScoring.popularity(scoringList, bestellliste)		#ScoringWert Milch abrufen
+		CoffeeMachineScoring.perishablemilk(scoringList, status)		#Scoring Bohnen abrufen
+		CoffeeMachineScoring.perishablecoffee(scoringList, status)		#Scoring Wasser abrufen
 		CoffeeMachineScoring.perishablewater(scoringList, status)
 		return(scoringList)
 
-
-	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Milch, sowie der benötigten Milchmenge pro Tasse. 
 	def perishablemilk(scoringList, status):
+		# =====================================================================
+        	# MethodPurpose: reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Milch, sowie der benötigten Milchmenge pro Tasse. 
+		# Input: Scoringlist, Füllmengen
+		# Output: neue Scouringliste
+        	# =====================================================================
 		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingMilk
