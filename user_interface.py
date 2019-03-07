@@ -12,7 +12,7 @@ import random
 from random import randint
 from coffee_machine_object import CoffeeMachine
 from collections import OrderedDict
-from operator import itemgetter  
+#from operator import itemgetter             #imported but unused 
 
 class Usermodel(object):
     # =============================================================================
@@ -33,21 +33,25 @@ class Usermodel(object):
         # =============================================================================
         # MethodPurpose: Initiiation of the object and defining of various usermodels
         # Each usermodel prefers different types of coffee
+        # if a type of coffee is preferred by a user the index is set with 100
+        # the last three models only use the reccomendation of the machine
         # the usermodels are used in the chooseCoffee-method
         # =============================================================================
+        
         self.modellist = [
-           {'1': 0 , '2': 0, '3': 0, '4': 100, '5': 0, '6': 0},            #just tea
-           {'1': 50 , '2': 0, '3': 80, '4': 15, '5': 0, '6': 80},        #only black coffe
-           {'1': 0 , '2': 90, '3': 0, '4': 25, '5': 60, '6': 0},           #just white coffee with the pereferation of Latte Machiatto
-           {'1': 25 , '2': 0, '3': 100, '4': 15, '5': 0, '6': 100},        #prefering espresso
-           {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 90, '6': 0},           #just white coffee with the pereferation of Milchkaffee
-           {'1': 0 , '2': 0, '3': 80, '4': 0, '5': 0, '6': 80},          #preferring double espresso
-           {'1': 80 , '2': 50, '3': 0, '4': 30, '5': 70, '6': 0},          #no preferations
-           {'1': 80 , '2': 70, '3': 0, '4': 30, '5': 50, '6': 0},          #no preferations 2
-           {'1': 100 , '2': 100, '3': 100, '4': 100, '5': 100, '6': 100},  #using only the reccomendation
-           {'1': 100 , '2': 0, '3': 100, '4': 0, '5': 0, '6': 100},        #using only the reccomendation wtihout milk
-           {'1': 0 , '2': 100, '3': 0, '4': 100, '5': 100, '6': 0}         #using only the reccomendation but no balck coffee
+           {'1': 0 , '2': 0, '3': 0, '4': 100, '5': 0, '6': 0},             #just tea
+           {'1': 60 , '2': 0, '3': 70, '4': 15, '5': 0, '6': 80},           #only black coffee
+           {'1': 0 , '2': 100, '3': 0, '4': 25, '5': 60, '6': 0},           #just white coffee with the pereferation of Latte Machiatto
+           {'1': 50 , '2': 0, '3': 100, '4': 15, '5': 0, '6': 60},          #prefering espresso 
+           {'1': 0 , '2': 60, '3': 0, '4': 25, '5': 100, '6': 0},           #just white coffee with the pereferation of Milchkaffee
+           {'1': 50 , '2': 0, '3': 60, '4': 0, '5': 0, '6': 100},           #preferring double espresso
+           {'1': 85 , '2': 60, '3': 0, '4': 30, '5': 85, '6': 0},           #no preferations
+           {'1': 85 , '2': 85, '3': 0, '4': 30, '5': 60, '6': 0},           #no preferations 2
+           {'1': 100 , '2': 100, '3': 100, '4': 100, '5': 100, '6': 100},   #using only the reccomendation
+           {'1': 100 , '2': 0, '3': 100, '4': 0, '5': 0, '6': 100},         #using only the reccomendation wtihout milk
+           {'1': 0 , '2': 100, '3': 0, '4': 100, '5': 100, '6': 0}          #using only the reccomendation but no balck coffee
            ]
+        
         random.seed()
         self.coffeeMachine = CoffeeMachine()
         
