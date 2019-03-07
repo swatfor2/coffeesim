@@ -13,3 +13,8 @@ class CoffeeMachineStatus(object):
 
     def __str__(self):
         return self.powerOn
+
+    def copy(self):
+        newone = type(self)(self.id, self.timestamp, self.powerOn, self.energySaver, self.remainingWater, self.remainingBeans, self.remainingMilk, self.pumpRuntime, self.grinderRuntime, self.machineRuntime)
+        newone.__dict__.update(self.__dict__)
+        return newone

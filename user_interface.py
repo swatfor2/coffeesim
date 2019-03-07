@@ -92,3 +92,6 @@ class Usermodel(object):
         returnlist["6"] = self.modellist[random_value]["6"] * orderlist["6"]["score"]
         sortedList = OrderedDict(sorted(returnlist.items(), key=lambda x: -x[1]))
         return(sortedList.popitem(last=False)[0])
+
+    def commitUnsavedChanges(self):
+        self.coffeeMachine.commitUnsavedChanges()

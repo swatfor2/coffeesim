@@ -16,7 +16,7 @@ class CoffeeMachineScoring(object):
 		self.ScoringList = {}
 
 	#Funktion, die den Scouringwert berechnet
-	def berechnungScore(date):
+	def berechnungScore(date, status):
 		scoringList = []
 		for i in BeverageListe:
 			scoringList.append([i[0], 0])
@@ -25,33 +25,32 @@ class CoffeeMachineScoring(object):
 		#ScoringWert Bohnen abrufen
 		#ScoringWert Tageszeit abrufen
 		CoffeeMachineScoring.daytime(scoringList,date)
-		print("ScoringListe nach Tageszeit ")
-		print(scoringList)
+		#print("ScoringListe nach Tageszeit ")
+		#print(scoringList)
 		#ScoringWert Wochentag abrufen
 		#ScoringWert Beliebtheit abrufen
 		CoffeeMachineScoring.popularity(scoringList)
-		print("ScoringListe nach Beliebtheit ")
-		print(scoringList)
+		#print("ScoringListe nach Beliebtheit ")
+		#print(scoringList)
 		#ScoringWert Milch abrufen
-		CoffeeMachineScoring.perishablemilk(scoringList)
-		print("ScoringListe nach Milch")
-		print(scoringList)
+		CoffeeMachineScoring.perishablemilk(scoringList, status)
+		#print("ScoringListe nach Milch")
+		#print(scoringList)
 		#Scoring Bohnen abrufen
-		CoffeeMachineScoring.perishablecoffee(scoringList)
-		print("ScoringListe nach Kaffee")
-		print(scoringList)
+		CoffeeMachineScoring.perishablecoffee(scoringList, status)
+		#print("ScoringListe nach Kaffee")
+		#print(scoringList)
 		#Scoring Wasser abrufen
-		CoffeeMachineScoring.perishablewater(scoringList)
-		print("ScoringListe nach Wasser")
-		print(scoringList)
+		CoffeeMachineScoring.perishablewater(scoringList, status)
+		#print("ScoringListe nach Wasser")
+		#print(scoringList)
 
 		return(scoringList)
 
 
 	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Milch, sowie der benötigten Milchmenge pro Tasse. 
-	def perishablemilk(scoringList):
+	def perishablemilk(scoringList, status):
 		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
-		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingMilk
 		a = a/constants.MAXMILK
@@ -74,9 +73,8 @@ class CoffeeMachineScoring(object):
 		return(scoringList)
 		
 	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand der Bohnen, sowie der benötigten Bohnenmenge pro Tasse. 
-	def perishablecoffee(scoringList):
+	def perishablecoffee(scoringList, status):
 		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
-		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingBeans
 		a = a/constants.MAXBEANS
@@ -103,9 +101,8 @@ class CoffeeMachineScoring(object):
 		
 		
 	#reduziert den Wert der Scoringliste prozentual, bemessen am Füllstand des Wassers, sowie der benötigten Wassermenge pro Tasse. 
-	def perishablewater(scoringList):
+	def perishablewater(scoringList, status):
 		#rufe die Liste der Füllmengen aus der Datenbank ab. ########################################
-		status = getLatestStatus()
 		#a ist die Füllmenge (10 = 100%)
 		a = status.remainingWater
 		a = a/constants.MAXWATER
@@ -226,6 +223,6 @@ class CoffeeMachineScoring(object):
 		
 		
 	
-print(CoffeeMachineScoring.decision(datetime.now()))
+#print(CoffeeMachineScoring.decision(datetime.now()))
 
 

@@ -1,7 +1,7 @@
 from coffee_machine_object import order
 from coffee_machine_object import BeverageList, BeverageItem
 from coffee_machine_object import constants
-from DataController import addOrderEntry, getOrderEntries, getLatestStatus, addStatusEntry
+from DataController import getLatestStatus, insertStatus, insertOrders
 from CoffeeMachineScoring import CoffeeMachineScoring
 import datetime
 
@@ -15,6 +15,10 @@ class CoffeeMachine(object):
         self._standardBeverages = self.beverageList.getBeverageList()
         self._beverageDict = self.beverageList.getBeverageDict()
         self.coffeeMachineStatus = self._startUp()
+        self._statusCount = 0
+        self._orderCount = 0
+        self._statusEntries = []
+        self._orderEntries = []
         #self.coffeeMachineScoring = CoffeeMachineScoring()
 
     def _startUp(self):
@@ -53,6 +57,17 @@ class CoffeeMachine(object):
             return True
         else:
             return False
+
+    def commitUnsavedChanges(self):
+        if len(self._statusEntries) > 0:
+            insertStatus(self._statusEntries)
+            self._statusEntries.clear()
+            self._statusCount = 0
+
+        if len(self._orderEntries) > 0:
+            insertOrders(self._orderEntries)
+            self._orderEntries.clear()
+            self._orderCount = 0
 
     def turnMachineOff(self, timestamp):
         self.coffeeMachineStatus.energySaver = 0
@@ -99,7 +114,7 @@ class CoffeeMachine(object):
     
     def _getScoredBeverageList(self, timestamp):
         #Request an Recommendation Module
-        results = CoffeeMachineScoring.berechnungScore(timestamp)
+        results = CoffeeMachineScoring.berechnungScore(timestamp, self.coffeeMachineStatus)
         return results
 
     def _checkResources(self, id, timestamp):
@@ -151,8 +166,20 @@ class CoffeeMachine(object):
 
     def _logOrder(self, newOrder):
         #Call DB module and log order
-        addOrderEntry(newOrder)
+        if self._orderCount < constants.NUMBER_OF_SQL_INSERTS_PER_TIME:
+            self._orderEntries.append(newOrder)
+            self._orderCount += 1
+        else:
+            insertOrders(self._orderEntries)
+            self._orderEntries.clear()
+            self._orderCount = 0
 
     def _logStatus(self):
         #Call DB module and log order
-        addStatusEntry(self.coffeeMachineStatus)
+        if self._statusCount < constants.NUMBER_OF_SQL_INSERTS_PER_TIME:
+            self._statusEntries.append(self.coffeeMachineStatus.copy())
+            self._statusCount += 1
+        else:
+            insertStatus(self._statusEntries)
+            self._statusEntries.clear()
+            self._statusCount = 0

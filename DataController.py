@@ -35,6 +35,16 @@ def addOrderEntry(order):
     conn.commit()
 
 
+def insertOrders(entries):
+    sqlInsert = ""
+    for order in entries:
+        sqlInsert += '({0},"{1}"),'.format(order.beverageID,order.timestampOrder)
+    sqlInsert = sqlInsert[:-1]
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute('insert into ORDERS (beverageUUID,timestampOrder) values '+sqlInsert+'')
+    conn.commit()
+
 
 def getStatusEntries():
     conn = sqlite3.connect('CoffeeMachineDB.db')
@@ -75,6 +85,20 @@ def addStatusEntry(status):
     conn = sqlite3.connect('CoffeeMachineDB.db')
     c = conn.cursor()
     c.execute('insert into STATUS (timestamp,powerOn,energySaver,remainingBeans,remainingMilk,remainingWater,pumpRuntime,grinderRuntime,machineRuntime) values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}","{8}")'.format(status.timestamp,status.powerOn,status.energySaver,status.remainingBeans,status.remainingMilk,status.remainingWater,status.pumpRuntime,status.grinderRuntime,status.machineRuntime))
+    conn.commit()
+
+
+def insertStatus(entries):
+    sqlInsert = ""
+    for status in entries:
+        sqlInsert += '("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}","{8}"),'.format(
+            status.timestamp, status.powerOn, status.energySaver, status.remainingBeans, status.remainingMilk,
+            status.remainingWater, status.pumpRuntime, status.grinderRuntime, status.machineRuntime)
+    sqlInsert = sqlInsert[:-1]
+    conn = sqlite3.connect('CoffeeMachineDB.db')
+    c = conn.cursor()
+    c.execute(
+        'insert into STATUS (timestamp,powerOn,energySaver,remainingBeans,remainingMilk,remainingWater,pumpRuntime,grinderRuntime,machineRuntime) values '+sqlInsert+'')
     conn.commit()
 
 

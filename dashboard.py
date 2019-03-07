@@ -69,6 +69,7 @@ def startSimulation():
         for x in range(minuten):
             date = date + timedelta(minutes = 1)
             userModel.interact(date)
+        userModel.commitUnsavedChanges()
         return "Simulation abgeschlossen"
 
 @app.route('/deleteSimulation')
